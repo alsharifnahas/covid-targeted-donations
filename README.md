@@ -9,3 +9,9 @@
 * [Google Maps](https://developers.google.com/maps/)
 * [Charity API](http://charityapi.orghunter.com/content/charity-search-summary-api)
 * [COVID Data by Location](https://documenter.getpostman.com/view/10122604/TVCe29D4#9e5b3384-a1d8-446d-b27e-c93fefb46014)
+
+## Credits
+
+* [The COVID Tracking Project](https://covidtracking.com/)
+* [The New York Times](https://www.nytimes.com/)
+* [Charts.js](https://www.chartjs.org/)
