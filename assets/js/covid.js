@@ -1,4 +1,5 @@
 // ===DOM VARIABLES===
+var generalRiskEl = document.getElementById('general-risk');
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 
@@ -115,6 +116,28 @@ function buildTotalDeathsChart() {
     })
 }
 
+function setGeneralRisks() {
+    var listEl = $("<ul>");
+    var test = $("<li>");
+    test.text("test");
+    listEl.append(test);
+    generalRiskEl.append(listEl);
+    
+    // var caseDensityEl = $("<li>");
+    // caseDensityEl.text("Case Density Rating: " + locationCovidData.riskLevels.caseDensity);
+    // listEl.append(caseDensityEl);
+
+    // var infectionRateEl = $("<li>");
+    // infectionRateEl.text("Infection Rate Rating: " + locationCovidData.riskLevels.infectionRate);
+    // listEl.append(infectionRateEl);
+
+    // var positiveRatioEl = $("<li>");
+    // positiveRatioEl.text("Positive Tests Ratio: " + locationCovidData.riskLevels.testPositivityRatio);
+    // listEl.append(positiveRatioEl);
+
+    // generalRiskEl.append(listEl);
+}
+
 function thirtyDayValues(key, data) {
     var returnArray = [];
 
@@ -158,6 +181,7 @@ $(document).ready(function() {
         method: "GET",
         success: function(data) {
             locationCovidData = data;
+            //setGeneralRisks();
             buildTotalCasesChart();
             buildTotalDeathsChart();
             console.log("COVID API:");
