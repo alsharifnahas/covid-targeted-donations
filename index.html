@@ -15,9 +15,10 @@
 
   <body style="background-color: beige;">
     <!-- navigation bar where we can redirect people -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar soon to be centered</a>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <span class="col-12 navbar-brand mb-0 h1 text-center">COVID Targeted Donations</span>
+        <!-- <a class="navbar-brand" href="#">Navbar soon to be centered</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +35,7 @@
               <a class="nav-link" href="#">Filler2</a>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </nav>
     <!-- The start of the container -->
@@ -45,13 +46,35 @@
       <div class="row">
         <div class="col-md-8">
           <div class="card">
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
+            <h5 class="card-title">General COVID Statistics for Fulton County</h5>
+            <div class="card-body row">
+              <!-- style="height: 232px;" -->
+              <ul id="general-risk" class="list-group col-2">
+                <li id="density-risk" class="list-group-item">
+                  <b>Case Density Rating: </b>
+                  <span id="density-span"></span>
+                </li>
+                <li id="infection-risk" class="list-group-item">
+                  <b>Infection Rate Rating: </b>
+                  <span id="infection-span"></span>
+                </li>
+                <li id="test-ratio-risk" class="list-group-item">
+                  <b>Positive Test Ratio Rating: </b>
+                  <span id="test-ratio-span"></span>
+                </li>
+              </ul>
+              <div class="col-5">
+                <canvas id="total-cases"></canvas>
+              </div>
+              <div class="col-5">
+                <canvas id="total-deaths"></canvas>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-4" style="margin: auto;">
           <div class="card">
+            <h5 class="card-title">Nearby Charities (General)</h5>
             <div class="card-body" style="height: 232px;">
               This is some text within a card body.
             </div>
@@ -61,6 +84,7 @@
       <div class="row">
         <div class="col-md-8">
           <div class="card">
+            <h5 class="card-title">Hospital Response to COVID in Fulton County</h5>
             <div class="card-body" style="height: 232px;">
               This is some text within a card body.
             </div>
@@ -68,6 +92,7 @@
         </div>
         <div class="col-md-4">
           <div class="card">
+            <h5 class="card-title">Nearby Charities (Hospital)</h5>
             <div class="card-body" style="height: 232px;">
               This is some text within a card body.
             </div>
@@ -77,6 +102,7 @@
       <div class="row">
         <div class="col-sm-8">
           <div class="card">
+            <h5 class="card-title">Government Response to COVID in Fulton County</h5>
             <div class="card-body" style="height: 232px;">
               This is some text within a card body.
             </div>
@@ -84,6 +110,7 @@
         </div>
         <div class="col-sm-4">
           <div class="card">
+            <h5 class="card-title">Nearby Charities (Gov't/Small Business)</h5>
             <div class="card-body" style="height: 232px;">
               This is some text within a card body.
             </div>
@@ -96,8 +123,8 @@
     </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/charity.js"></script>
   </body>
 
 </html>
