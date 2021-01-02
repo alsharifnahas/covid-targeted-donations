@@ -1,160 +1,232 @@
-let myChart = document.getElementById('myChart').getContext('2d');
-let chart2 = document.getElementById('chart2').getContext('2d');
+// ===DOM VARIABLES===
+// var generalRiskEl = document.getElementById('general-risk');
+var generalRiskEl = $("#general-risk");
+var densitySpanEl = $("#density-span");
+var infectionSpanEl = $("#infection-span");
+var testRatioSpanEl = $("#test-ratio-span");
+var totalCasesEl = document.getElementById('total-cases').getContext('2d');
+var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 
-let chart1 = new Chart(myChart, {
+// ===JS VARIABLES===
+var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
+var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
+var locationCovidData = {};
 
-    type: 'bar', // bar, horizontalBar, pie, line, doughnut, etc
-    data: {
-        labels: ['February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [{
-            label: 'Confirmed U.S. Cases',
-            data: [
-                18,
-                196932,
-                1073216,
-                1791042,
-                2622225,
-                4521307,
-                5977153,
-                7168137,
-                9054023,
-                13463395,
-                18016698,
+// ===FUNCTION DEFINITIONS===
+function buildURL() {
+    var queryURL = charityURL;
+
+    var queryParams = { user_key: charityAPIkey };
+
+    queryParams.state = "GA";
+    queryParams.category = "H";
+    queryParams.eligible = 1;
+
+    return queryURL + $.param(queryParams);
+}
+
+function buildTotalCasesChart() {
+    //return today's date location in object
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var totalCasesChart = new Chart (totalCasesEl, {
+        type: 'bar',
+        data: {
+            labels: thirtyDayValues('label', locationActuals),
+            datasets: [
+                {label: 'Total COVID Cases',
+                data: thirtyDayValues('cases', locationActuals)}
             ],
             backgroundColor: 'red',
             borderWidth: 1,
             hoverBorderWidth: 3,
-            hoverBorderColor: 'black',
-        }]
-
-    },
-    options: {
-        title: {
-            display: true,
-            text: 'COVID Statistics',
-            fontSize: 25,
+            hoverBorderColor: 'black'
         },
-        layout: {
-            padding: {
-                left: 100,
-                right: 400,
-                bottom: 100,
-                top: 100,
-            }
+        options: {
+            title: {
+                display: true,
+                text: "Past 30 Days (" + locationCovidData.county + ")",
+                fontSize: 25
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 0
+                }
+            },
         }
-    }
+    })
+}
 
-});
+function buildTotalDeathsChart() {
 
-
-let casPopChart = new Chart(chart2, {
-    type: 'bar',
-    data: {
-        labels: ['February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [{
-            label: 'Confirmed U.S. Deaths',
-            data: [
-                5,
-                4332,
-                59599,
-                100780,
-                120257,
-                145513,
-                175752,
-                199084,
-                222639,
-                259697,
-                314099,
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var totalDeathsChart = new Chart (totalDeathsEl, {
+        type: 'bar',
+        data: {
+            labels: thirtyDayValues('label', locationActuals),
+            datasets: [
+                {label: 'Total COVID Deaths',
+                data: thirtyDayValues('deaths', locationActuals)}
             ],
             backgroundColor: 'red',
-        }]
-    },
-    options: {
-        title: {
-            display: true,
-            text: 'COVID Statistics',
-            fontSize: 25,
+            borderWidth: 1,
+            hoverBorderWidth: 3,
+            hoverBorderColor: 'black'
         },
-        layout: {
-            padding: {
-                left: 100,
-                right: 400,
-                bottom: 100,
-                top: 100,
+        options: {
+            title: {
+                display: true,
+                text: "Past 30 Days (" + locationCovidData.county + ")",
+                fontSize: 25
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 0
+                }
             }
         }
+    })
+}
+
+function setGeneralRisks() {
+
+    
+    densitySpanEl.text(locationCovidData.riskLevels.caseDensity);
+    infectionSpanEl.text(locationCovidData.riskLevels.infectionRate);
+    testRatioSpanEl.text(locationCovidData.riskLevels.testPositivityRatio);
+    
+}
+
+function thirtyDayValues(key, data) {
+    var returnArray = [];
+
+    for(i = 30; i >= 0; i--) {
+        var currentDataPoint = data[data.length - (1 + i)];
+        if(key === 'label') {
+            returnArray.push(currentDataPoint.date);
+        } else if(key === 'cases') {
+            returnArray.push(currentDataPoint.cases);
+        } else if(key === 'deaths') {
+            returnArray.push(currentDataPoint.deaths);
+        }
     }
-});
+    return returnArray;
+}
 
-// // calling the google maps api
-// let script = document.createElement('script');
-// script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGWP3SzdepY4mvjdHLL13yH66QAv2qPQ&libraries=places&callback=initMap';
-// script.defer = true;
+$(document).ready(function() {
 
-// // creating a marker variable
-// let marker;
+// ===FUNCTION CALLS===
+    
+    
+    //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
+    //Fulton FIPS: 13121
 
-// // callback function for the api
-// window.initMap = function () {
-//     // creating a variable for current position
-//     let latLng;
+    $.ajax({
+        url: buildURL(),
+        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+        method: "POST",
+        success: function(data) {
+            console.log("Charity API:");
+            console.log(data);
+        }
+    })
 
-//     // creating the map object
-//     const map = new google.maps.Map(document.querySelector(".map"), {
-//         zoom: 10,
-//         center: latLng
-//     });
+    
 
-//     // getting the current location to position the map
-//     navigator.geolocation.getCurrentPosition((position) => {
-//         latLng =
-//         {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude
-//         }
+    $.ajax({
+        url: "https://api.covidactnow.org/v2/county/13121.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757",
+        // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
+        method: "GET",
+        success: function(data) {
+            locationCovidData = data;
+            setGeneralRisks();
+            buildTotalCasesChart();
+            buildTotalDeathsChart();
+            console.log("COVID API:");
+            console.log(locationCovidData)
+            //console.log(csvToJSON(data));
+        }
+    })
 
-//         // adding the location to change the map's position
-//         map.setCenter(latLng);
+// ===EVENT LISTENERS===
 
-//     })
+})
+
+// calling the google maps api
+let script = document.createElement('script');
+script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGWP3SzdepY4mvjdHLL13yH66QAv2qPQ&libraries=places&callback=initMap';
+script.defer = true;
+
+// creating a marker variable
+let marker;
+
+// callback function for the api
+window.initMap = function () {
+    // creating a variable for current position
+    let latLng;
+
+    // creating the map object
+    const map = new google.maps.Map(document.querySelector(".map"), {
+        zoom: 10,
+        center: latLng
+    });
+
+    // getting the current location to position the map
+    navigator.geolocation.getCurrentPosition((position) => {
+        latLng =
+        {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+
+        // adding the location to change the map's position
+        map.setCenter(latLng);
+
+    })
 
 
-//     // event listner for each marker
-//     map.addListener("click", (e) => {
-//         placeMarkerAndPanTo(e.latLng, map);
-//     });
+    // event listner for each marker
+    map.addListener("click", (e) => {
+        placeMarkerAndPanTo(e.latLng, map);
+    });
 
 
-// }
-// function placeMarkerAndPanTo(latLng, map) {
-//     if (marker != undefined) {
-//         marker.setMap(null);
-//     }
-//     marker = new google.maps.Marker({
-//         position: latLng,
-//         map: map,
-//     });
+}
+function placeMarkerAndPanTo(latLng, map) {
+    if (marker != undefined) {
+        marker.setMap(null);
+    }
+    marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+    });
 
 
-//     map.panTo(latLng);
-//     marker.addListener("click", () => {
+    map.panTo(latLng);
+    marker.addListener("click", () => {
 
-//         // creating a variable to compare the current marker location
-//         const currentMarkerLocation = {
-//             lat: marker.getPosition().lat(),
-//             lng: marker.getPosition().lng()
-//         }
-//         if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
-//             // deleting the marker if it was clicked again
-//             marker.setMap(null);
-//         }
+        // creating a variable to compare the current marker location
+        const currentMarkerLocation = {
+            lat: marker.getPosition().lat(),
+            lng: marker.getPosition().lng()
+        }
+        if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
+            // deleting the marker if it was clicked again
+            marker.setMap(null);
+        }
 
 
-//         map.setZoom(14);
-//         map.setCenter(marker.getPosition());
-//     });
+        map.setZoom(14);
+        map.setCenter(marker.getPosition());
+    });
 
-// }
+}
 
-// // Append the 'script' element to 'head'
-// document.head.appendChild(script);
+// Append the 'script' element to 'head'
+document.head.appendChild(script);

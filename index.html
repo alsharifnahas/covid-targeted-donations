@@ -47,9 +47,9 @@
         <div class="col-md-8">
           <div class="card">
             <h5 class="card-title">General COVID Statistics for Fulton County</h5>
-            <div class="card-body">
+            <div class="card-body row">
               <!-- style="height: 232px;" -->
-              <ul id="general-risk" class="list-group">
+              <ul id="general-risk" class="list-group col-2">
                 <li id="density-risk" class="list-group-item">
                   <b>Case Density Rating: </b>
                   <span id="density-span"></span>
@@ -63,8 +63,12 @@
                   <span id="test-ratio-span"></span>
                 </li>
               </ul>
-              <canvas id="total-cases"></canvas>
-              <canvas id="total-deaths"></canvas>
+              <div class="col-5">
+                <canvas id="total-cases"></canvas>
+              </div>
+              <div class="col-5">
+                <canvas id="total-deaths"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -120,8 +124,8 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <!-- <script src="./assets/js/script.js"></script> -->
-    <script src="./assets/js/covid.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <!-- <script src="./assets/js/covid.js"></script> -->
   </body>
 
 </html>

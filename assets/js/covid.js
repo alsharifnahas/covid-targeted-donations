@@ -11,33 +11,6 @@ var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
 var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
 var locationCovidData = {};
-// var totalCasesChart = new Chart (totalCasesEl, {
-//     type: 'bar',
-//     data: {
-//         labels: [],
-//         datasets: [{
-//             data: []
-//         }],
-//         backgroundColor: 'red',
-//         borderWidth: 1,
-//         hoverBorderWidth: 3,
-//         hoverBorderColor: 'black'
-//     },
-//     options: {
-//         title: {
-//             display: true,
-//             fontSize: 25
-//         },
-//         layout: {
-//             padding: {
-//                 left: 100,
-//                 right: 400,
-//                 bottom: 100,
-//                 top: 100
-//             }
-//         }
-//     }
-// })
 
 // ===FUNCTION DEFINITIONS===
 function buildURL() {
@@ -76,12 +49,12 @@ function buildTotalCasesChart() {
             },
             layout: {
                 padding: {
-                    left: 100,
-                    right: 400,
-                    bottom: 100,
-                    top: 100
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 0
                 }
-            }
+            },
         }
     })
 }
@@ -110,10 +83,10 @@ function buildTotalDeathsChart() {
             },
             layout: {
                 padding: {
-                    left: 100,
-                    right: 400,
-                    bottom: 100,
-                    top: 100
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 0
                 }
             }
         }
@@ -153,16 +126,16 @@ $(document).ready(function() {
     //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
     //Fulton FIPS: 13121
 
-    // $.ajax({
-    //     url: buildURL(),
-    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-    //     method: "POST",
-    //     success: function(data) {
-    //         console.log("Charity API:");
-    //         console.log(data);
-    //     }
-    // })
+    $.ajax({
+        url: buildURL(),
+        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+        method: "POST",
+        success: function(data) {
+            console.log("Charity API:");
+            console.log(data);
+        }
+    })
 
     
 
