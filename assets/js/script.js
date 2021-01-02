@@ -86,75 +86,75 @@ let casPopChart = new Chart(chart2, {
     }
 });
 
-// calling the google maps api
-let script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGWP3SzdepY4mvjdHLL13yH66QAv2qPQ&libraries=places&callback=initMap';
-script.defer = true;
+// // calling the google maps api
+// let script = document.createElement('script');
+// script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGWP3SzdepY4mvjdHLL13yH66QAv2qPQ&libraries=places&callback=initMap';
+// script.defer = true;
 
-// creating a marker variable
-let marker;
+// // creating a marker variable
+// let marker;
 
-// callback function for the api
-window.initMap = function () {
-    // creating a variable for current position
-    let latLng;
+// // callback function for the api
+// window.initMap = function () {
+//     // creating a variable for current position
+//     let latLng;
 
-    // creating the map object
-    const map = new google.maps.Map(document.querySelector(".map"), {
-        zoom: 10,
-        center: latLng
-    });
+//     // creating the map object
+//     const map = new google.maps.Map(document.querySelector(".map"), {
+//         zoom: 10,
+//         center: latLng
+//     });
 
-    // getting the current location to position the map
-    navigator.geolocation.getCurrentPosition((position) => {
-        latLng =
-        {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        }
+//     // getting the current location to position the map
+//     navigator.geolocation.getCurrentPosition((position) => {
+//         latLng =
+//         {
+//             lat: position.coords.latitude,
+//             lng: position.coords.longitude
+//         }
 
-        // adding the location to change the map's position
-        map.setCenter(latLng);
+//         // adding the location to change the map's position
+//         map.setCenter(latLng);
 
-    })
-
-
-    // event listner for each marker
-    map.addListener("click", (e) => {
-        placeMarkerAndPanTo(e.latLng, map);
-    });
+//     })
 
 
-}
-function placeMarkerAndPanTo(latLng, map) {
-    if (marker != undefined) {
-        marker.setMap(null);
-    }
-    marker = new google.maps.Marker({
-        position: latLng,
-        map: map,
-    });
+//     // event listner for each marker
+//     map.addListener("click", (e) => {
+//         placeMarkerAndPanTo(e.latLng, map);
+//     });
 
 
-    map.panTo(latLng);
-    marker.addListener("click", () => {
-
-        // creating a variable to compare the current marker location
-        const currentMarkerLocation = {
-            lat: marker.getPosition().lat(),
-            lng: marker.getPosition().lng()
-        }
-        if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
-            // deleting the marker if it was clicked again
-            marker.setMap(null);
-        }
+// }
+// function placeMarkerAndPanTo(latLng, map) {
+//     if (marker != undefined) {
+//         marker.setMap(null);
+//     }
+//     marker = new google.maps.Marker({
+//         position: latLng,
+//         map: map,
+//     });
 
 
-        map.setZoom(14);
-        map.setCenter(marker.getPosition());
-    });
+//     map.panTo(latLng);
+//     marker.addListener("click", () => {
 
-}
+//         // creating a variable to compare the current marker location
+//         const currentMarkerLocation = {
+//             lat: marker.getPosition().lat(),
+//             lng: marker.getPosition().lng()
+//         }
+//         if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
+//             // deleting the marker if it was clicked again
+//             marker.setMap(null);
+//         }
 
-// Append the 'script' element to 'head'
-document.head.appendChild(script);
+
+//         map.setZoom(14);
+//         map.setCenter(marker.getPosition());
+//     });
+
+// }
+
+// // Append the 'script' element to 'head'
+// document.head.appendChild(script);

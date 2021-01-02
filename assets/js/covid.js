@@ -1,21 +1,117 @@
+// ===DOM VARIABLES===
+var totalCasesEl = document.getElementById('total-cases').getContext('2d');
+
+// ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
 var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
+var locationCovidData = {};
+// var totalCasesChart = new Chart (totalCasesEl, {
+//     type: 'bar',
+//     data: {
+//         labels: [],
+//         datasets: [{
+//             data: []
+//         }],
+//         backgroundColor: 'red',
+//         borderWidth: 1,
+//         hoverBorderWidth: 3,
+//         hoverBorderColor: 'black'
+//     },
+//     options: {
+//         title: {
+//             display: true,
+//             fontSize: 25
+//         },
+//         layout: {
+//             padding: {
+//                 left: 100,
+//                 right: 400,
+//                 bottom: 100,
+//                 top: 100
+//             }
+//         }
+//     }
+// })
+
+// ===FUNCTION DEFINITIONS===
+function buildURL() {
+    var queryURL = charityURL;
+
+    var queryParams = { user_key: charityAPIkey };
+
+    queryParams.state = "GA";
+    queryParams.category = "H";
+    queryParams.eligible = 1;
+
+    return queryURL + $.param(queryParams);
+}
+
+function buildTotalCasesChart() {
+    //return today's date location in object
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var totalCasesChart = new Chart (totalCasesEl, {
+        type: 'bar',
+        data: {
+            labels: setTotalCaseValues('label', locationActuals),
+            datasets: [
+                {label: 'Total COVID Cases',
+                data: setTotalCaseValues('cases', locationActuals)}
+            ],
+            backgroundColor: 'red',
+            borderWidth: 1,
+            hoverBorderWidth: 3,
+            hoverBorderColor: 'black'
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Past 30 Days (" + locationCovidData.county + ")",
+                fontSize: 25
+            },
+            layout: {
+                padding: {
+                    left: 100,
+                    right: 400,
+                    bottom: 100,
+                    top: 100
+                }
+            }
+        }
+    })
+}
+
+function setTotalCaseValues(key, data) {
+    var returnArray = [];
+
+    for(i = 30; i >= 0; i--) {
+        var currentDataPoint = data[data.length - (1 + i)];
+        if(key === 'label') {
+            returnArray.push(currentDataPoint.date);
+        } else if(key === 'cases') {
+            returnArray.push(currentDataPoint.cases);
+        }
+    }
+    return returnArray;
+}
 
 $(document).ready(function() {
+
+// ===FUNCTION CALLS===
+    
     
     //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
     //Fulton FIPS: 13121
 
-    $.ajax({
-        url: buildURL(),
-        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-        // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-        method: "POST",
-        success: function(data) {
-            console.log("Charity API:");
-            console.log(data);
-        }
-    })
+    // $.ajax({
+    //     url: buildURL(),
+    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
+    //     method: "POST",
+    //     success: function(data) {
+    //         console.log("Charity API:");
+    //         console.log(data);
+    //     }
+    // })
 
     
 
@@ -24,46 +120,16 @@ $(document).ready(function() {
         // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
         method: "GET",
         success: function(data) {
+            locationCovidData = data;
+            buildTotalCasesChart();
             console.log("COVID API:");
-            console.log(data)
+            console.log(locationCovidData)
             //console.log(csvToJSON(data));
         }
     })
+
+// ===EVENT LISTENERS===
+
 })
 
-// function csvToJSON(csv){
-
-//     var lines = csv.split("\n");
   
-//     var result = [];
-  
-//     var headers = lines[0].split(",");
-  
-//     for(var i=1; i<lines.length; i++){
-  
-//         var obj = {};
-//         var currentline=lines[i].split(",");
-  
-//         for(var j=0;j<headers.length;j++){
-//             obj[headers[j]] = currentline[j];
-//         }
-  
-//         result.push(obj);
-  
-//     }
-  
-//     //return result; //JavaScript object
-//     return result; //JSON
-//   }
-
-  function buildURL() {
-    var queryURL = charityURL;
-
-    var queryParams = { user_key: charityAPIkey }
-
-    queryParams.state = "GA";
-    queryParams.category = "H";
-    queryParams.eligible = 1;
-
-    return queryURL + $.param(queryParams);
-}
