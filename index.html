@@ -50,9 +50,18 @@
             <div class="card-body">
               <!-- style="height: 232px;" -->
               <ul id="general-risk" class="list-group">
-                <li id="density-risk" class="list-group-item">Case Density Rating: </li>
-                <li id="infection-risk" class="list-group-item">Infection Rate Rating: </li>
-                <li id="test-ratio-risk" class="list-group-item">Positive Test Ratio Rating: </li>
+                <li id="density-risk" class="list-group-item">
+                  <b>Case Density Rating: </b>
+                  <span id="density-span"></span>
+                </li>
+                <li id="infection-risk" class="list-group-item">
+                  <b>Infection Rate Rating: </b>
+                  <span id="infection-span"></span>
+                </li>
+                <li id="test-ratio-risk" class="list-group-item">
+                  <b>Positive Test Ratio Rating: </b>
+                  <span id="test-ratio-span"></span>
+                </li>
               </ul>
               <canvas id="total-cases"></canvas>
               <canvas id="total-deaths"></canvas>
