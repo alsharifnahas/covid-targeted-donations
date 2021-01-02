@@ -1,5 +1,6 @@
 // ===DOM VARIABLES===
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
+var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
@@ -52,10 +53,10 @@ function buildTotalCasesChart() {
     var totalCasesChart = new Chart (totalCasesEl, {
         type: 'bar',
         data: {
-            labels: setTotalCaseValues('label', locationActuals),
+            labels: thirtyDayValues('label', locationActuals),
             datasets: [
                 {label: 'Total COVID Cases',
-                data: setTotalCaseValues('cases', locationActuals)}
+                data: thirtyDayValues('cases', locationActuals)}
             ],
             backgroundColor: 'red',
             borderWidth: 1,
@@ -80,7 +81,41 @@ function buildTotalCasesChart() {
     })
 }
 
-function setTotalCaseValues(key, data) {
+function buildTotalDeathsChart() {
+
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var totalDeathsChart = new Chart (totalDeathsEl, {
+        type: 'bar',
+        data: {
+            labels: thirtyDayValues('label', locationActuals),
+            datasets: [
+                {label: 'Total COVID Deaths',
+                data: thirtyDayValues('deaths', locationActuals)}
+            ],
+            backgroundColor: 'red',
+            borderWidth: 1,
+            hoverBorderWidth: 3,
+            hoverBorderColor: 'black'
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Past 30 Days (" + locationCovidData.county + ")",
+                fontSize: 25
+            },
+            layout: {
+                padding: {
+                    left: 100,
+                    right: 400,
+                    bottom: 100,
+                    top: 100
+                }
+            }
+        }
+    })
+}
+
+function thirtyDayValues(key, data) {
     var returnArray = [];
 
     for(i = 30; i >= 0; i--) {
@@ -89,6 +124,8 @@ function setTotalCaseValues(key, data) {
             returnArray.push(currentDataPoint.date);
         } else if(key === 'cases') {
             returnArray.push(currentDataPoint.cases);
+        } else if(key === 'deaths') {
+            returnArray.push(currentDataPoint.deaths);
         }
     }
     return returnArray;
@@ -122,6 +159,7 @@ $(document).ready(function() {
         success: function(data) {
             locationCovidData = data;
             buildTotalCasesChart();
+            buildTotalDeathsChart();
             console.log("COVID API:");
             console.log(locationCovidData)
             //console.log(csvToJSON(data));
