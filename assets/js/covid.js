@@ -4,7 +4,7 @@ var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
 $(document).ready(function() {
     
     //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
-    
+    //Fulton FIPS: 13121
 
     $.ajax({
         url: buildURL(),
@@ -20,39 +20,41 @@ $(document).ready(function() {
     
 
     $.ajax({
-        url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
+        url: "https://api.covidactnow.org/v2/county/13121.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757",
+        // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
         method: "GET",
         success: function(data) {
             console.log("COVID API:");
-            console.log(csvToJSON(data));
+            console.log(data)
+            //console.log(csvToJSON(data));
         }
     })
 })
 
-function csvToJSON(csv){
+// function csvToJSON(csv){
 
-    var lines = csv.split("\n");
+//     var lines = csv.split("\n");
   
-    var result = [];
+//     var result = [];
   
-    var headers = lines[0].split(",");
+//     var headers = lines[0].split(",");
   
-    for(var i=1; i<lines.length; i++){
+//     for(var i=1; i<lines.length; i++){
   
-        var obj = {};
-        var currentline=lines[i].split(",");
+//         var obj = {};
+//         var currentline=lines[i].split(",");
   
-        for(var j=0;j<headers.length;j++){
-            obj[headers[j]] = currentline[j];
-        }
+//         for(var j=0;j<headers.length;j++){
+//             obj[headers[j]] = currentline[j];
+//         }
   
-        result.push(obj);
+//         result.push(obj);
   
-    }
+//     }
   
-    //return result; //JavaScript object
-    return result; //JSON
-  }
+//     //return result; //JavaScript object
+//     return result; //JSON
+//   }
 
   function buildURL() {
     var queryURL = charityURL;
