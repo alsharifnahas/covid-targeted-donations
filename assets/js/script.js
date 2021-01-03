@@ -87,6 +87,9 @@ function buildTotalCasesChart() {
                     top: 0
                 }
             },
+            responsive: true,
+            responsiveAnimationDuration: 100,
+            maintainAspectRatio: false
         }
     })
 }
@@ -120,7 +123,10 @@ function buildTotalDeathsChart() {
                     bottom: 0,
                     top: 0
                 }
-            }
+            },
+            responsive: true,
+            responsiveAnimationDuration: 100,
+            maintainAspectRatio: false
         }
     })
 }
@@ -158,7 +164,10 @@ function buildIcuBedsChart() {
                         bottom: 0,
                         top: 0
                     }
-                }
+                },
+                responsive: true,
+                responsiveAnimationDuration: 100,
+                maintainAspectRatio: false
             }
         })
     } else {
@@ -201,7 +210,10 @@ function buildContactTracerChart() {
                         bottom: 0,
                         top: 0
                     }
-                }
+                },
+                responsive: true,
+                responsiveAnimationDuration: 100,
+                maintainAspectRatio: false
             }
         })
     } else {
@@ -406,7 +418,10 @@ window.initMap = function () {
     // creating the map object
     const map = new google.maps.Map(document.querySelector(".map"), {
         zoom: 10,
-        center: latLng
+        center: latLng,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false
     });
 
     // getting the current location to position the map
