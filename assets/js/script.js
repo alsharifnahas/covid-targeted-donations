@@ -5,6 +5,7 @@ var infectionSpanEl = $("#infection-span");
 var testRatioSpanEl = $("#test-ratio-span");
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
+var generalCharityEl = $('#charity-general');
 var tracerSpanEl = $("#tracer-span");
 var icuCapacitySpanEl = $("#icu-capacity-span");
 var icuHeadroomSpanEl = $("#icu-headroom-span");
@@ -14,12 +15,14 @@ var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
 var estimatedTracersEl = $('#estimated-tracers');
 var estimatedTracersValueEl = $('#estimated-tracers-value');
+var hospitalCharityEl = $('#charity-hospital');
 var barRestrictionsSpanEl = $('#bar-restrictions');
 var gatheringRestrictionsSpanEl = $('#gathering-restrictions');
 var nonessentialRestrictionsSpanEl = $('#nonessential-restrictions');
 var openStatusSpanEl = $('#open-status');
 var stayAtHomeSpanEl = $('#stay-at-home');
 var restaurantRestrictionsSpanEl = $('#restuarant-restrictions');
+var employmentCharityEl = $('#charity-employment')
 
 // calling the google maps api
 let script = document.createElement('script');
@@ -53,17 +56,6 @@ var locationCovidData = {};
 let marker;
 
 // ===FUNCTION DEFINITIONS===
-function buildURL() {
-    var queryURL = charityURL;
-
-    var queryParams = { user_key: charityAPIkey };
-
-    queryParams.state = "GA";
-    queryParams.category = "H";
-    queryParams.eligible = 1;
-
-    return queryURL + $.param(queryParams);
-}
 
 function buildTotalCasesChart() {
     //return today's date location in object
@@ -286,6 +278,9 @@ async function populatePage(coordinates) {
     await setLocation(coordinates);
     queryCovidData();
     queryGovtResponseData();
+    queryCharityData('E', generalCharityEl);
+    queryCharityData('E', hospitalCharityEl);
+    queryCharityData('J', employmentCharityEl);
 }
 
 function queryCovidData() {
@@ -308,8 +303,47 @@ function queryCovidData() {
     })
 }
 
-function queryCharityData() {
-    //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
+function buildCharityList(data, htmlElement) {
+    
+    htmlElement.empty();
+
+    for(var i = 0; i < data.data.length && i < 7; i++) {
+        var charityItem = $("<li>");
+        charityItem.attr("class", "list-group-item");
+        charityItem.text(data.data[i].charityName);
+        htmlElement.append(charityItem);
+    }
+}
+
+function queryCharityData(type, htmlElement) {
+
+    var queryParams = { 
+        user_key: charityAPIkey,
+        latitude: locationData.coords.latitude,
+        longitude: locationData.coords.longitude,
+        distance: 100,
+        category: type,
+        eligible: 1 };
+
+    var queryURL = charityURL + $.param(queryParams);
+
+    $.ajax({
+        url: queryURL,
+        method: "POST",
+        success: function(data) {
+            buildCharityList(data, htmlElement);
+            console.log("Charity API:");
+            console.log(data);
+        }
+    })
+    //Categories: 
+        //E > Health - General and Rehabilitative
+        //G > Diseases, DIsorders, Medical Disciplines
+        //H > Medical Research
+        //J > Employment, Job Related
+        //L > Housing, Shelter
+        //H > Medical Research
+
     //Fulton FIPS: 13121
 
     //Charities API
