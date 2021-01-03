@@ -5,6 +5,9 @@ var infectionSpanEl = $("#infection-span");
 var testRatioSpanEl = $("#test-ratio-span");
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
+var tracerSpanEl = $("#tracer-span");
+var icuCapacitySpan = $("#icu-capacity-span");
+var icuHeadroomSpan = $("#icu-headroom-span");
 
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
@@ -101,6 +104,14 @@ function setGeneralRisks() {
     
 }
 
+function setHospitalRisks() {
+
+    tracerSpanEl.text(locationCovidData.riskLevels.contactTracerCapacityRatio);
+    icuCapacitySpan.text(locationCovidData.riskLevels.icuCapacityRatio);
+    icuHeadroomSpan.text(locationCovidData.riskLevels.icuHeadroomRatio);
+
+}
+
 function thirtyDayValues(key, data) {
     var returnArray = [];
 
@@ -148,6 +159,7 @@ $(document).ready(function() {
             setGeneralRisks();
             buildTotalCasesChart();
             buildTotalDeathsChart();
+            setHospitalRisks();
             console.log("COVID API:");
             console.log(locationCovidData)
             //console.log(csvToJSON(data));
