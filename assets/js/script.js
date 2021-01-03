@@ -11,6 +11,7 @@ var icuHeadroomSpanEl = $("#icu-headroom-span");
 var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
 var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 var estimatedBedsEl = $('#estimated-beds');
+var estimatedBedsValueEl = $('#estimated-beds-value');
 
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
@@ -136,6 +137,7 @@ function buildIcuBedsChart() {
         })
     } else {
         estimatedBedsEl.removeClass('visually-hidden');
+        estimatedBedsValueEl.text(locationCovidData.metrics.icuHeadroomDetails.currentIcuCovid);
     }
 }
 
