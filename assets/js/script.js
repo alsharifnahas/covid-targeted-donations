@@ -418,7 +418,10 @@ window.initMap = function () {
     // creating the map object
     const map = new google.maps.Map(document.querySelector(".map"), {
         zoom: 10,
-        center: latLng
+        center: latLng,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false
     });
 
     // getting the current location to position the map
