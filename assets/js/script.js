@@ -12,6 +12,12 @@ var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
 var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
+var barRestrictionsSpanEl = $('#bar-restrictions');
+var gatheringRestrictionsSpanEl = $('#gathering-restrictions');
+var nonessentialRestrictionsSpanEl = $('#nonessential-restrictions');
+var openStatusSpanEl = $('#open-status');
+var stayAtHomeSpanEl = $('#stay-at-home');
+var restaurantRestrictionsSpanEl = $('#restuarant-restrictions');
 
 // calling the google maps api
 let script = document.createElement('script');
@@ -307,19 +313,25 @@ function queryCharityData() {
 }
 
 function queryGovtResponseData() {
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA",
-        method: "GET",
-        success: function(data) {
-            console.log("US Response API: ");
-            console.log(data);
-        }
-    })
+    // $.ajax({
+    //     url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA",
+    //     method: "GET",
+    //     success: function(data) {
+    //         console.log("US Response API: ");
+    //         console.log(data);
+    //     }
+    // })
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA&state=${locationData.state.code}`,
         method: "GET",
         success: function(data) {
+            barRestrictionsSpanEl.text(data.Community_regulations.Bar_Restrictions_Code);
+            gatheringRestrictionsSpanEl.text(data.Community_regulations.Gathering_Restriction_Code);
+            nonessentialRestrictionsSpanEl.text(data.Community_regulations.Non_Essential_Business_Closure_Code);
+            openStatusSpanEl.text(data.Community_regulations.Reopening_Plan_Code);
+            stayAtHomeSpanEl.text(data.Community_regulations.Stay_at_Home_Requirement_Code);
+            restaurantRestrictionsSpanEl.text(data.Community_regulations.Restaurant_Restrictions_Code);
             console.log("State Response API: ");
             console.log(data);
         }
