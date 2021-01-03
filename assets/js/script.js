@@ -12,6 +12,8 @@ var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
 var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
+var estimatedTracersEl = $('#estimated-tracers');
+var estimatedTracersValueEl = $('#estimated-tracers-value');
 var barRestrictionsSpanEl = $('#bar-restrictions');
 var gatheringRestrictionsSpanEl = $('#gathering-restrictions');
 var nonessentialRestrictionsSpanEl = $('#nonessential-restrictions');
@@ -170,14 +172,17 @@ function buildIcuBedsChart() {
     } else {
         estimatedBedsEl.removeClass('visually-hidden');
         estimatedBedsValueEl.text(locationCovidData.metrics.icuHeadroomDetails.currentIcuCovid);
+        $('#icu-bed-usage').addClass('visually-hidden');
     }
 }
 
 function buildContactTracerChart() {
     
-    dataListed = true;
-    if(dataListed) {
-        var locationActuals = locationCovidData.actualsTimeseries;
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var tracersByDay = thirtyDayValues('tracers', locationActuals);
+
+    if(tracersByDay > 0) {
+        
         var tracerChart = new Chart (tracerTotalsEl, {
             type: 'bar',
             data: {
@@ -207,6 +212,14 @@ function buildContactTracerChart() {
                 }
             }
         })
+    } else {
+        estimatedTracersEl.removeClass('visually-hidden');
+        if (locationCovidData.metrics.contactTracerCapacityRatio === null) {
+            estimatedTracersValueEl.text(`No data on the number of COVID Contact Tracers is available for ${locationData.county.name}`);
+        } else {
+            estimatedTracersValueEl.text(locationCovidData.metrics.contactTracerCapacityRatio);
+        }
+        $('#tracer-totals').addClass('visually-hidden');
     }
 }
 
