@@ -75,9 +75,8 @@
         <div class="col-md-4" style="margin: auto;">
           <div class="card">
             <h5 class="card-title">Nearby Charities (General)</h5>
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
-            </div>
+            <ul id="charity-general" class="card-body">
+            </ul>
           </div>
         </div>
       </div>
@@ -85,17 +84,43 @@
         <div class="col-md-8">
           <div class="card">
             <h5 class="card-title">Hospital Response to COVID in Fulton County</h5>
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
+            <div class="card-body row">
+              <ul id="hospital-risk" class="list-group col-2">
+                <li id="tracer-risk" class="list-group-item">
+                  <b>Contact Tracer Capacity Rating: </b>
+                  <span id="tracer-span"></span>
+                </li>
+                <li id="icu-capacity-risk" class="list-group-item">
+                  <b>ICU Capacity Rating: </b>
+                  <span id="icu-capacity-span"></span>
+                </li>
+                <li id="icu-headroom-risk" class="list-group-item">
+                  <b>ICU Headroom Rating: </b>
+                  <span id="icu-headroom-span"></span>
+                </li>
+              </ul>
+              <div class="col-5">
+                <canvas id="icu-bed-usage"></canvas>
+                <div id="estimated-beds" class="card visually-hidden">
+                  <h5 class="card-title">Estimated COVID Hospital Beds</h5>
+                  <div id="estimated-beds-value" class="card-body"></div>
+                </div>
+              </div>
+              <div class="col-5">
+                <canvas id="tracer-totals"></canvas>
+                <div id="estimated-tracers" class="card visually-hidden">
+                  <h5 class="card-title">Estimated Contact Tracers</h5>
+                  <div id="estimated-tracers-value" class="card-body"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <h5 class="card-title">Nearby Charities (Hospital)</h5>
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
-            </div>
+            <ul id="charity-hospital" class="card-body">
+            </ul>
           </div>
         </div>
       </div>
@@ -104,16 +129,22 @@
           <div class="card">
             <h5 class="card-title">Government Response to COVID in Fulton County</h5>
             <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
+              <ul class="list-group">
+                <li class="list-group-item">Bar Restrictions: <span id="bar-restrictions"></span></li>
+                <li class="list-group-item">Gathering Restrictions: <span id="gathering-restrictions"></span></li>
+                <li class="list-group-item">Non-Essential Businesses: <span id="nonessential-restrictions"></span></li>
+                <li class="list-group-item">Reopen Status: <span id="open-status"></span></li>
+                <li class="list-group-item">Stay at Home Requirement: <span id="stay-at-home"></span></li>
+                <li class="list-group-item">Restaurant Restrictions: <span id="restuarant-restrictions"></span></li>
+              </ul>
             </div>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="card">
             <h5 class="card-title">Nearby Charities (Gov't/Small Business)</h5>
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
-            </div>
+            <ul id="charity-employment" class="card-body">
+            </ul>
           </div>
         </div>
       </div>
