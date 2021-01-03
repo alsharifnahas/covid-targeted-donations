@@ -85,8 +85,21 @@
         <div class="col-md-8">
           <div class="card">
             <h5 class="card-title">Hospital Response to COVID in Fulton County</h5>
-            <div class="card-body" style="height: 232px;">
-              This is some text within a card body.
+            <div class="card-body row">
+              <ul id="hospital-risk" class="list-group col-2">
+                <li id="tracer-risk" class="list-group-item">
+                  <b>Contact Tracer Capacity Rating: </b>
+                  <span id="tracer-span"></span>
+                </li>
+                <li id="icu-capacity-risk" class="list-group-item">
+                  <b>ICU Capacity Rating: </b>
+                  <span id="icu-capacity-span"></span>
+                </li>
+                <li id="icu-headroom-risk" class="list-group-item">
+                  <b>ICU Headroom Rating: </b>
+                  <span id="icu-headroom-span"></span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
