@@ -10,6 +10,7 @@ var icuCapacitySpanEl = $("#icu-capacity-span");
 var icuHeadroomSpanEl = $("#icu-headroom-span");
 var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
 var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
+var estimatedBedsEl = $('#estimated-beds');
 
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
@@ -99,8 +100,10 @@ function buildTotalDeathsChart() {
 
 function buildIcuBedsChart() {
     
-    dataListed = true;
-    if(dataListed) {
+    var locationActuals = locationCovidData.actualsTimeseries;
+    var bedsByDay = thirtyDayValues('bed', locationActuals);
+
+    if(bedsByDay.length > 0) {
         var locationActuals = locationCovidData.actualsTimeseries;
         var icuBedsChart = new Chart (icuBedsUsageEl, {
             type: 'bar',
@@ -108,7 +111,7 @@ function buildIcuBedsChart() {
                 labels: thirtyDayValues('label', locationActuals),
                 datasets: [
                     {label: 'COVID ICU Beds Usage Rate',
-                    data: thirtyDayValues('beds', locationActuals)}
+                    data: bedsByDay}
                 ],
                 backgroundColor: 'red',
                 borderWidth: 1,
@@ -131,6 +134,8 @@ function buildIcuBedsChart() {
                 }
             }
         })
+    } else {
+        estimatedBedsEl.removeClass('visually-hidden');
     }
 }
 
