@@ -6,8 +6,10 @@ var testRatioSpanEl = $("#test-ratio-span");
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 var tracerSpanEl = $("#tracer-span");
-var icuCapacitySpan = $("#icu-capacity-span");
-var icuHeadroomSpan = $("#icu-headroom-span");
+var icuCapacitySpanEl = $("#icu-capacity-span");
+var icuHeadroomSpanEl = $("#icu-headroom-span");
+var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
+var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
@@ -95,6 +97,80 @@ function buildTotalDeathsChart() {
     })
 }
 
+function buildIcuBedsChart() {
+    
+    dataListed = true;
+    if(dataListed) {
+        var locationActuals = locationCovidData.actualsTimeseries;
+        var icuBedsChart = new Chart (icuBedsUsageEl, {
+            type: 'bar',
+            data: {
+                labels: thirtyDayValues('label', locationActuals),
+                datasets: [
+                    {label: 'COVID ICU Beds Usage Rate',
+                    data: thirtyDayValues('beds', locationActuals)}
+                ],
+                backgroundColor: 'red',
+                borderWidth: 1,
+                hoverBorderWidth: 3,
+                hoverBorderColor: 'black'
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Past 30 Days (" + locationCovidData.county + ")",
+                    fontSize: 25
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        top: 0
+                    }
+                }
+            }
+        })
+    }
+}
+
+function buildContactTracerChart() {
+    
+    dataListed = true;
+    if(dataListed) {
+        var locationActuals = locationCovidData.actualsTimeseries;
+        var tracerChart = new Chart (tracerTotalsEl, {
+            type: 'bar',
+            data: {
+                labels: thirtyDayValues('label', locationActuals),
+                datasets: [
+                    {label: 'Contact Tracer Totals',
+                    data: thirtyDayValues('tracers', locationActuals)}
+                ],
+                backgroundColor: 'red',
+                borderWidth: 1,
+                hoverBorderWidth: 3,
+                hoverBorderColor: 'black'
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Past 30 Days (" + locationCovidData.county + ")",
+                    fontSize: 25
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        top: 0
+                    }
+                }
+            }
+        })
+    }
+}
+
 function setGeneralRisks() {
 
     
@@ -107,8 +183,8 @@ function setGeneralRisks() {
 function setHospitalRisks() {
 
     tracerSpanEl.text(locationCovidData.riskLevels.contactTracerCapacityRatio);
-    icuCapacitySpan.text(locationCovidData.riskLevels.icuCapacityRatio);
-    icuHeadroomSpan.text(locationCovidData.riskLevels.icuHeadroomRatio);
+    icuCapacitySpanEl.text(locationCovidData.riskLevels.icuCapacityRatio);
+    icuHeadroomSpanEl.text(locationCovidData.riskLevels.icuHeadroomRatio);
 
 }
 
@@ -123,6 +199,10 @@ function thirtyDayValues(key, data) {
             returnArray.push(currentDataPoint.cases);
         } else if(key === 'deaths') {
             returnArray.push(currentDataPoint.deaths);
+        } else if(key === 'beds') {
+            returnArray.push(currentDataPoint.hospitalBeds.currentUsageCovid);
+        } else if (key === 'tracers') {
+            returnArray.push(currentDataPoint.contactTracers);
         }
     }
     return returnArray;
@@ -160,6 +240,8 @@ $(document).ready(function() {
             buildTotalCasesChart();
             buildTotalDeathsChart();
             setHospitalRisks();
+            buildIcuBedsChart();
+            buildContactTracerChart();
             console.log("COVID API:");
             console.log(locationCovidData)
             //console.log(csvToJSON(data));
