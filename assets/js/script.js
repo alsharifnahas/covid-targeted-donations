@@ -13,6 +13,14 @@ var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
 
+// calling the google maps api
+let script = document.createElement('script');
+script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBLpVjjZQtpYn9-b1nAHbHor_GpQFtPSCo&libraries=places&callback=initMap';
+script.defer = true;
+
+// Append the 'script' element to 'head'
+document.head.appendChild(script);
+
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
 var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
@@ -32,6 +40,9 @@ var locationData = {
     }
 }
 var locationCovidData = {};
+
+// Google Maps: creating a marker variable
+let marker;
 
 // ===FUNCTION DEFINITIONS===
 function buildURL() {
@@ -234,20 +245,48 @@ function setLocation(coordinates) {
     locationData.coords.latitude = coordinates.latLng.lat();
     locationData.coords.longitude = coordinates.latLng.lng();
     
+    return new Promise(resolve => {
+        $.ajax({
+            url: `https://geo.fcc.gov/api/census/block/find?latitude=${locationData.coords.latitude}&longitude=${locationData.coords.longitude}&showall=true&format=json`,
+            method: "GET",
+            success: function(data) {
+                locationData.county.fips = data.County.FIPS;
+                locationData.county.name = data.County.name;
+    
+                locationData.state.fips = data.State.FIPS;
+                locationData.state.code = data.State.code;
+                locationData.state.name = data.State.name;
+                console.log(locationData);
+                resolve('success');
+            }
+        });
+    })
+}
+
+async function populatePage(coordinates) {
+    await setLocation(coordinates);
+    queryCovidData();
+}
+
+function queryCovidData() {
+    console.log(locationData.county.fips);
     $.ajax({
-        url: `https://geo.fcc.gov/api/census/block/find?latitude=${locationData.coords.latitude}&longitude=${locationData.coords.longitude}&showall=true&format=json`,
+        url: `https://api.covidactnow.org/v2/county/${locationData.county.fips}.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757`,
+        // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
         method: "GET",
         success: function(data) {
-            locationData.county.fips = data.County.FIPS;
-            locationData.county.name = data.County.name;
-
-            locationData.state.fips = data.State.FIPS;
-            locationData.state.code = data.State.code;
-            locationData.state.name = data.State.name;
-            console.log(locationData);
+            locationCovidData = data;
+            setGeneralRisks();
+            buildTotalCasesChart();
+            buildTotalDeathsChart();
+            setHospitalRisks();
+            buildIcuBedsChart();
+            buildContactTracerChart();
+            console.log("COVID API:");
+            console.log(locationCovidData)
+        //console.log(csvToJSON(data));
         }
-    });
-
+    })
 }
 
 
@@ -273,23 +312,7 @@ $(document).ready(function() {
 
     
     //COVID Statistics API
-    $.ajax({
-        url: "https://api.covidactnow.org/v2/county/13121.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757",
-        // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
-        method: "GET",
-        success: function(data) {
-            locationCovidData = data;
-            setGeneralRisks();
-            buildTotalCasesChart();
-            buildTotalDeathsChart();
-            setHospitalRisks();
-            buildIcuBedsChart();
-            buildContactTracerChart();
-            console.log("COVID API:");
-            console.log(locationCovidData)
-            //console.log(csvToJSON(data));
-        }
-    })
+    
 
     //Non-Pharmaceutical Intervition API
     $.ajax({
@@ -331,16 +354,7 @@ $(document).ready(function() {
 
 // ===EVENT LISTENERS===
 
-// calling the google maps api
-let script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBLpVjjZQtpYn9-b1nAHbHor_GpQFtPSCo&libraries=places&callback=initMap';
-script.defer = true;
 
-// Append the 'script' element to 'head'
-document.head.appendChild(script);
-
-// creating a marker variable
-let marker;
 
 // callback function for the api
 window.initMap = function () {
@@ -370,7 +384,7 @@ window.initMap = function () {
     // event listner for each marker
     map.addListener("click", (e) => {
         placeMarkerAndPanTo(e.latLng, map);
-        setLocation(e);
+        populatePage(e);
     });
 
 
@@ -405,8 +419,5 @@ function placeMarkerAndPanTo(latLng, map) {
     });
 
 }
-
-//Append the 'script' element to 'head'
-document.head.appendChild(script);
 
 })
