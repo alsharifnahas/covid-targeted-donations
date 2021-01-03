@@ -266,6 +266,7 @@ function setLocation(coordinates) {
 async function populatePage(coordinates) {
     await setLocation(coordinates);
     queryCovidData();
+    queryGovtResponseData();
 }
 
 function queryCovidData() {
@@ -284,17 +285,11 @@ function queryCovidData() {
             buildContactTracerChart();
             console.log("COVID API:");
             console.log(locationCovidData)
-        //console.log(csvToJSON(data));
         }
     })
 }
 
-
-$(document).ready(function() {
-
-// ===FUNCTION CALLS===
-    
-    
+function queryCharityData() {
     //Categories: G > Diseases, Disorders, Medical Disciplines, J > Employment, Job Related, M > Public Safety, Disaster Preparedness and Relief
     //Fulton FIPS: 13121
 
@@ -309,12 +304,9 @@ $(document).ready(function() {
     //         console.log(data);
     //     }
     // })
+}
 
-    
-    //COVID Statistics API
-    
-
-    //Non-Pharmaceutical Intervition API
+function queryGovtResponseData() {
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA",
         method: "GET",
@@ -325,36 +317,27 @@ $(document).ready(function() {
     })
 
     $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA&state=GA",
+        url: `https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA&state=${locationData.state.code}`,
         method: "GET",
         success: function(data) {
             console.log("State Response API: ");
             console.log(data);
         }
     })
+}
 
-    //API Key: LLzkHIRZnldABBEr7tRqwIP5deOguHPV
-    // $.ajax({
-    //     url: "https://api.covidcountydata.org/npi_us?location=13121",
-    //     method: "GET",
-    //     success: function(data) {
-    //         console.log("NPI_US");
-    //         console.log(data);
-    //     }
-    // })
-    //Bureau of Labor API
-    // $.ajax({
-    //     url: "https://api.bls.gov/publicAPI/v2/timeseries/data/CEU0500000001",
-    //     method: "GET",
-    //     success: function(data) {
-    //         console.log("BoL API: ");
-    //         console.log(data);
-    //     }
-    // })
+
+$(document).ready(function() {
+
+// ===FUNCTION CALLS===
+
+    
+    //COVID Statistics API
+    
+
+    //Non-Pharmaceutical Intervition API
 
 // ===EVENT LISTENERS===
-
-
 
 // callback function for the api
 window.initMap = function () {
