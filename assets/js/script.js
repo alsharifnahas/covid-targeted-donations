@@ -87,6 +87,9 @@ function buildTotalCasesChart() {
                     top: 0
                 }
             },
+            responsive: true,
+            responsiveAnimationDuration: 100,
+            maintainAspectRatio: false
         }
     })
 }
@@ -120,7 +123,10 @@ function buildTotalDeathsChart() {
                     bottom: 0,
                     top: 0
                 }
-            }
+            },
+            responsive: true,
+            responsiveAnimationDuration: 100,
+            maintainAspectRatio: false
         }
     })
 }
@@ -158,7 +164,10 @@ function buildIcuBedsChart() {
                         bottom: 0,
                         top: 0
                     }
-                }
+                },
+                responsive: true,
+                responsiveAnimationDuration: 100,
+                maintainAspectRatio: false
             }
         })
     } else {
@@ -201,7 +210,10 @@ function buildContactTracerChart() {
                         bottom: 0,
                         top: 0
                     }
-                }
+                },
+                responsive: true,
+                responsiveAnimationDuration: 100,
+                maintainAspectRatio: false
             }
         })
     } else {
