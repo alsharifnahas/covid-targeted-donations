@@ -16,6 +16,21 @@ var estimatedBedsValueEl = $('#estimated-beds-value');
 // ===JS VARIABLES===
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
 var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
+var locationData = {
+    coords: {
+        latitude: 0,
+        longitude: 0
+    },
+    state: {
+        fips: '',
+        code: '',
+        name: ''
+    },
+    county: {
+        fips: '',
+        name: '',
+    }
+}
 var locationCovidData = {};
 
 // ===FUNCTION DEFINITIONS===
@@ -215,6 +230,27 @@ function thirtyDayValues(key, data) {
     return returnArray;
 }
 
+function setLocation(coordinates) {
+    locationData.coords.latitude = coordinates.latLng.lat();
+    locationData.coords.longitude = coordinates.latLng.lng();
+    
+    $.ajax({
+        url: `https://geo.fcc.gov/api/census/block/find?latitude=${locationData.coords.latitude}&longitude=${locationData.coords.longitude}&showall=true&format=json`,
+        method: "GET",
+        success: function(data) {
+            locationData.county.fips = data.County.FIPS;
+            locationData.county.name = data.County.name;
+
+            locationData.state.fips = data.State.FIPS;
+            locationData.state.code = data.State.code;
+            locationData.state.name = data.State.name;
+            console.log(locationData);
+        }
+    });
+
+}
+
+
 $(document).ready(function() {
 
 // ===FUNCTION CALLS===
@@ -295,77 +331,82 @@ $(document).ready(function() {
 
 // ===EVENT LISTENERS===
 
+// calling the google maps api
+let script = document.createElement('script');
+script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBLpVjjZQtpYn9-b1nAHbHor_GpQFtPSCo&libraries=places&callback=initMap';
+script.defer = true;
+
+// Append the 'script' element to 'head'
+document.head.appendChild(script);
+
+// creating a marker variable
+let marker;
+
+// callback function for the api
+window.initMap = function () {
+    // creating a variable for current position
+    let latLng;
+
+    // creating the map object
+    const map = new google.maps.Map(document.querySelector(".map"), {
+        zoom: 10,
+        center: latLng
+    });
+
+    // getting the current location to position the map
+    navigator.geolocation.getCurrentPosition((position) => {
+        latLng =
+        {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        }
+
+        // adding the location to change the map's position
+        map.setCenter(latLng);
+
+    })
+
+
+    // event listner for each marker
+    map.addListener("click", (e) => {
+        placeMarkerAndPanTo(e.latLng, map);
+        setLocation(e);
+    });
+
+
+}
+function placeMarkerAndPanTo(latLng, map) {
+    if (marker != undefined) {
+        marker.setMap(null);
+    }
+    marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+    });
+
+
+    map.panTo(latLng);
+    marker.addListener("click", () => {
+
+        // creating a variable to compare the current marker location
+        const currentMarkerLocation = {
+            lat: marker.getPosition().lat(),
+            lng: marker.getPosition().lng()
+        }
+        if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
+            // deleting the marker if it was clicked again
+            marker.setMap(null);
+        }
+
+
+        map.setZoom(14);
+        map.setCenter(marker.getPosition());
+
+    });
+
+}
+
+//Append the 'script' element to 'head'
+document.head.appendChild(script);
+
 })
-
-// // calling the google maps api
-// let script = document.createElement('script');
-// script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGWP3SzdepY4mvjdHLL13yH66QAv2qPQ&libraries=places&callback=initMap';
-// script.defer = true;
-
-// // creating a marker variable
-// let marker;
-
-// // callback function for the api
-// window.initMap = function () {
-//     // creating a variable for current position
-//     let latLng;
-
-//     // creating the map object
-//     const map = new google.maps.Map(document.querySelector(".map"), {
-//         zoom: 10,
-//         center: latLng
-//     });
-
-//     // getting the current location to position the map
-//     navigator.geolocation.getCurrentPosition((position) => {
-//         latLng =
-//         {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude
-//         }
-
-//         // adding the location to change the map's position
-//         map.setCenter(latLng);
-
-//     })
-
-
-//     // event listner for each marker
-//     map.addListener("click", (e) => {
-//         placeMarkerAndPanTo(e.latLng, map);
-//     });
-
-
-// }
-// function placeMarkerAndPanTo(latLng, map) {
-//     if (marker != undefined) {
-//         marker.setMap(null);
-//     }
-//     marker = new google.maps.Marker({
-//         position: latLng,
-//         map: map,
-//     });
-
-
-//     map.panTo(latLng);
-//     marker.addListener("click", () => {
-
-//         // creating a variable to compare the current marker location
-//         const currentMarkerLocation = {
-//             lat: marker.getPosition().lat(),
-//             lng: marker.getPosition().lng()
-//         }
-//         if ((marker.getPosition().lat() == currentMarkerLocation.lat && marker.getPosition().lng() == currentMarkerLocation.lng) && map.getZoom() == 14) {
-//             // deleting the marker if it was clicked again
-//             marker.setMap(null);
-//         }
-
-
-//         map.setZoom(14);
-//         map.setCenter(marker.getPosition());
-//     });
-
-// }
-
-// // Append the 'script' element to 'head'
-// document.head.appendChild(script);
