@@ -15,3 +15,7 @@
 * [The COVID Tracking Project](https://covidtracking.com/)
 * [The New York Times](https://www.nytimes.com/)
 * [Charts.js](https://www.chartjs.org/)
+
+## Contributions
+
+Rafael Chavez, Alsharif Eid, Kyle Chriscoe, and Kevin Buttimer.
