@@ -99,9 +99,12 @@ function buildTotalCasesChart() {
             hoverBorderColor: 'black'
         },
         options: {
+            legend: {
+                display: false
+            },
             title: {
                 display: true,
-                text: "Past 30 Days (" + locationCovidData.county + ")",
+                text: "Total COVID Cases (Past 30 Days)",
                 fontSize: 25
             },
             layout: {
