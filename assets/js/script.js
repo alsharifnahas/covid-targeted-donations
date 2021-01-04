@@ -4,7 +4,8 @@ var generalRiskEl = $("#general-risk");
 var densitySpanEl = $("#density-span");
 var infectionSpanEl = $("#infection-span");
 var testRatioSpanEl = $("#test-ratio-span");
-var totalCasesEl = document.getElementById('total-cases').getContext('2d');
+var totalCasesContainEl = $('#total-cases-contain');
+// var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 // ---General Charity Element---
 var generalCharityEl = $('#charity-general');
@@ -73,7 +74,13 @@ function buildTotalCasesChart() {
 
     var locationActuals = locationCovidData.actualsTimeseries;
 
-    var totalCasesChart = new Chart (totalCasesEl, {
+    totalCasesContainEl.empty();
+    var totalCasesCanvasEl = $("<canvas>");
+    totalCasesContainEl.append(totalCasesCanvasEl);
+
+    totalCasesCtx = totalCasesCanvasEl[0].getContext('2d');
+    
+    var totalCasesChart = new Chart (totalCasesCtx, {
         type: 'bar',
         data: {
             labels: thirtyDayValues('label', locationActuals),
