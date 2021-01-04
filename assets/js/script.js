@@ -1,5 +1,6 @@
 // ===DOM VARIABLES===
 // ---General Risk Section Elements---
+var generalTitleEl = $('#general-title');
 var generalRiskEl = $("#general-risk");
 var densitySpanEl = $("#density-span");
 var infectionSpanEl = $("#infection-span");
@@ -11,6 +12,7 @@ var totalDeathsContainEl = $('#total-deaths-contain');
 // ---General Charity Element---
 var generalCharityEl = $('#charity-general');
 // ---Medical Risk Section Elements---
+var hospitalTitleEl = $('#hospital-title');
 var tracerSpanEl = $("#tracer-span");
 var icuCapacitySpanEl = $("#icu-capacity-span");
 var icuHeadroomSpanEl = $("#icu-headroom-span");
@@ -25,6 +27,7 @@ var estimatedTracersValueEl = $('#estimated-tracers-value');
 // ---Medical Charity Element---
 var hospitalCharityEl = $('#charity-hospital');
 // ---Govt Response Risk Elements---
+var govtTitleEl = $('#govt-title');
 var barRestrictionsSpanEl = $('#bar-restrictions');
 var gatheringRestrictionsSpanEl = $('#gathering-restrictions');
 var nonessentialRestrictionsSpanEl = $('#nonessential-restrictions');
@@ -151,9 +154,12 @@ function buildTotalDeathsChart() {
             hoverBorderColor: 'black'
         },
         options: {
+            legend: {
+                display: false
+            },
             title: {
                 display: true,
-                text: "Past 30 Days (" + locationCovidData.county + ")",
+                text: "Total COVID Deats (Past 30 Days)",
                 fontSize: 25
             },
             layout: {
@@ -201,9 +207,12 @@ function buildIcuBedsChart() {
                 hoverBorderColor: 'black'
             },
             options: {
+                legend: {
+                    display: false
+                },
                 title: {
                     display: true,
-                    text: "Past 30 Days (" + locationCovidData.county + ")",
+                    text: "COVID ICU Bed Usage Rate",
                     fontSize: 25
                 },
                 layout: {
@@ -258,9 +267,12 @@ function buildContactTracerChart() {
                 hoverBorderColor: 'black'
             },
             options: {
+                legend: {
+                    display: false,
+                },
                 title: {
                     display: true,
-                    text: "Past 30 Days (" + locationCovidData.county + ")",
+                    text: "COVID Contact Tracers",
                     fontSize: 25
                 },
                 layout: {
@@ -354,6 +366,10 @@ function setLocation(lat, lng) {
                 locationData.state.code = data.State.code;
                 locationData.state.name = data.State.name;
                 console.log(locationData);
+
+                generalTitleEl.text(`General COVID Statistics for ${locationData.county.name}`);
+                hospitalTitleEl.text(`Medical Response to COVID in ${locationData.county.name}`);
+                govtTitleEl.text(`Government Response to COVID in ${locationData.state.name}`);
                 resolve('success');
             }
         });
