@@ -76,7 +76,14 @@ function buildTotalCasesChart() {
     //Output: n/a
 
     var locationActuals = locationCovidData.actualsTimeseries;
-    var totalCasesChart = new Chart(totalCasesEl, {
+
+    totalCasesContainEl.empty();
+    var totalCasesCanvasEl = $("<canvas>");
+    totalCasesContainEl.append(totalCasesCanvasEl);
+
+    var totalCasesCtx = totalCasesCanvasEl[0].getContext('2d');
+
+    var totalCasesChart = new Chart(totalCasesCtx, {
         type: 'bar',
         data: {
             labels: thirtyDayValues('label', locationActuals),
@@ -118,7 +125,14 @@ function buildTotalDeathsChart() {
     //Output: n/a
 
     var locationActuals = locationCovidData.actualsTimeseries;
-    var totalDeathsChart = new Chart(totalDeathsEl, {
+
+    totalDeathsContainEl.empty();
+    var totalDeathsCanvasEl = $('<canvas>');
+    totalDeathsContainEl.append(totalDeathsCanvasEl);
+
+    totalDeathsCtx = totalDeathsCanvasEl[0].getContext('2d');
+
+    var totalDeathsChart = new Chart(totalDeathsCtx, {
         type: 'bar',
         data: {
             labels: thirtyDayValues('label', locationActuals),
@@ -157,9 +171,18 @@ function buildTotalDeathsChart() {
 function buildIcuBedsChart() {
     var locationActuals = locationCovidData.actualsTimeseries;
 
+    icuBedsUsageContainEl.empty();
+    var icuBedsUsageCanvasEl = $('<canvas>');
+    icuBedsUsageContainEl.append(icuBedsUsageCanvasEl);
+
+    var icuBedsUsageCtx = icuBedsUsageCanvasEl[0].getContext('2d');
+
+    //First check if there is data available for this chart
+    var bedsByDay = thirtyDayValues('bed', locationActuals);
+    //...if so, build out the chart
     if (bedsByDay.length > 0) {
-        var locationActuals = locationCovidData.actualsTimeseries;
-        var icuBedsChart = new Chart(icuBedsUsageEl, {
+        // var locationActuals = locationCovidData.actualsTimeseries;
+        var icuBedsChart = new Chart(icuBedsUsageCtx, {
             type: 'bar',
             data: {
                 labels: thirtyDayValues('label', locationActuals),
@@ -205,9 +228,18 @@ function buildIcuBedsChart() {
 function buildContactTracerChart() {
     var locationActuals = locationCovidData.actualsTimeseries;
 
+    totalTracersContainEl.empty();
+    var totalTracersCanvasEl = $('<canvas>');
+    totalTracersContainEl.append(totalTracersCanvasEl);
+
+    var totalTracersCtx = totalTracersCanvasEl[0].getContext('2d');
+
+    //First check to see if there is data available for this chart
+    var tracersByDay = thirtyDayValues('tracers', locationActuals);
+    //...if so, build the chart
     if (tracersByDay > 0) {
 
-        var tracerChart = new Chart(tracerTotalsEl, {
+        var tracerChart = new Chart(totalTracersCtx, {
             type: 'bar',
             data: {
                 labels: thirtyDayValues('label', locationActuals),
