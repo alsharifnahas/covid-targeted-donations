@@ -6,9 +6,7 @@ var densitySpanEl = $("#density-span");
 var infectionSpanEl = $("#infection-span");
 var testRatioSpanEl = $("#test-ratio-span");
 var totalCasesContainEl = $('#total-cases-contain');
-// var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsContainEl = $('#total-deaths-contain');
-// var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
 // ---General Charity Element---
 var generalCharityEl = $('#charity-general');
 // ---Medical Risk Section Elements---
@@ -17,9 +15,7 @@ var tracerSpanEl = $("#tracer-span");
 var icuCapacitySpanEl = $("#icu-capacity-span");
 var icuHeadroomSpanEl = $("#icu-headroom-span");
 var icuBedsUsageContainEl = $('#icu-bed-usage-contain');
-//var icuBedsUsageEl = document.getElementById('icu-bed-usage').getContext('2d');
 var totalTracersContainEl = $('#total-tracers-contain');
-//var tracerTotalsEl = document.getElementById('tracer-totals').getContext('2d');
 var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
 var estimatedTracersEl = $('#estimated-tracers');
@@ -41,8 +37,6 @@ var employmentCharityEl = $('#charity-employment')
 let script = document.createElement('script');
 script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCLbcYFkEQGgfWAnPInbdq7ehzMdrjb534&callback=initMap&libraries=&v=weekly';
 script.defer = true;
-
-// Append the 'script' element to 'head'
 
 
 // ===JS VARIABLES===
@@ -178,6 +172,10 @@ function buildTotalDeathsChart() {
 }
 
 function buildIcuBedsChart() {
+    //Function to build chart for historical COVID ICU Bed Usage
+    //Input: n/a
+    //Output: n/a
+
     var locationActuals = locationCovidData.actualsTimeseries;
 
     icuBedsUsageContainEl.empty();
@@ -238,6 +236,10 @@ function buildIcuBedsChart() {
 }
 
 function buildContactTracerChart() {
+    //Function to build chart containing historical data on COVID Contact tracers in selected area
+    //Input: n/a
+    //Outpu: n/a
+
     var locationActuals = locationCovidData.actualsTimeseries;
 
     totalTracersContainEl.empty();
@@ -350,6 +352,10 @@ function thirtyDayValues(key, data) {
 }
 
 function setLocation(lat, lng) {
+    //Function to set location data for current search location. Uses Google Maps lat/lang to query FCC API for county/state info
+    //Input: lat (latitude from Google Maps), lng (longitude from Google Maps)
+    //Output: returns a promise on successful query and data population
+
     locationData.coords.latitude = lat;
     locationData.coords.longitude = lng;
 
@@ -377,9 +383,11 @@ function setLocation(lat, lng) {
 }
 
 async function populatePage(lat, lng) {
+    //Async Function to populate page with location specific data. Waits for complete location data then calls data APIs
+    //Input: lat and lng from Google Map
+    //Output: n/a
+
     await setLocation(lat, lng);
-
-
     queryCovidData();
     queryGovtResponseData();
     queryCharityData('E', generalCharityEl);
@@ -412,6 +420,9 @@ function queryCovidData() {
 }
 
 function buildCharityList(data, htmlElement) {
+    //Function to build the Charity list
+    //Input: data (object, data from charity API), htmlElement (jQuery object to write Charity list to)
+    //Output: n/a
 
     htmlElement.empty();
 
@@ -426,6 +437,7 @@ function buildCharityList(data, htmlElement) {
 function queryCharityData(type, htmlElement) {
     //Function to query the Charity API
     //Input: type (string, one letter code indicating type of charity to searh for in API), htmlElement (saved jQuery element to write to)
+    //Output: n/a
 
     var queryParams = {
         user_key: charityAPIkey,
@@ -448,42 +460,12 @@ function queryCharityData(type, htmlElement) {
             console.log(data);
         }
     })
-    //Categories: 
-    //E > Health - General and Rehabilitative
-    //G > Diseases, DIsorders, Medical Disciplines
-    //H > Medical Research
-    //J > Employment, Job Related
-    //L > Housing, Shelter
-    //H > Medical Research
-
-    //Fulton FIPS: 13121
-
-    //Charities API
-    // $.ajax({
-    //     url: buildURL(),
-    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-    //     // url: "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/categories?user_key=b784bd4d2422022a05ab4a00a568c5e1",
-    //     method: "POST",
-    //     success: function(data) {
-    //         console.log("Charity API:");
-    //         console.log(data);
-    //     }
-    // })
 }
 
 function queryGovtResponseData() {
     //Function to query Govt Responses at state level
     //Input: n/a
     //Output: n/a
-
-    // $.ajax({
-    //     url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA",
-    //     method: "GET",
-    //     success: function(data) {
-    //         console.log("US Response API: ");
-    //         console.log(data);
-    //     }
-    // })
 
     $.ajax({
         url: `https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA&state=${locationData.state.code}`,
@@ -505,12 +487,6 @@ function queryGovtResponseData() {
 
 
 // ===FUNCTION CALLS===
-
-
-//COVID Statistics API
-
-
-//Non-Pharmaceutical Intervition API
 
 // ===EVENT LISTENERS===
 
@@ -610,4 +586,5 @@ function geocodeAddress(geocoder, resultsMap, latLng) {
     });
 }
 
+// Append the 'script' element to 'head'
 document.head.appendChild(script);
