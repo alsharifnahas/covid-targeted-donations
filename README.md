@@ -18,7 +18,10 @@
 
 ## Contributions
 
-Rafael Chavez, Alsharif Eid, Kyle Chriscoe, and Kevin Buttimer.
+* Rafael Chavez - https://github.com/Rafael-Chavez
+* Kevin Buttimer - https://github.com/KevinB04
+* Kyle Chriscoe - https://github.com/Udunomancer
+* Alsharif Eid - https://github.com/alsharifnahas
 
 ## License
 
