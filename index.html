@@ -51,10 +51,10 @@
                   <span id="test-ratio-span"></span>
                 </li>
               </ul>
-              <div class="col-5">
+              <div id="total-cases-contain" class="col-5">
                 <canvas id="total-cases"></canvas>
               </div>
-              <div class="col-5">
+              <div id="total-deaths-contain" class="col-5">
                 <canvas id="total-deaths"></canvas>
               </div>
             </div>
@@ -88,14 +88,18 @@
                 </li>
               </ul>
               <div class="col-5">
-                <canvas id="icu-bed-usage"></canvas>
+                <div id="icu-bed-usage-contain">
+                  <canvas id="icu-bed-usage"></canvas>
+                </div>
                 <div id="estimated-beds" class="card visually-hidden">
                   <h5 class="card-title">Estimated COVID Hospital Beds</h5>
                   <div id="estimated-beds-value" class="card-body"></div>
                 </div>
               </div>
               <div class="col-5">
-                <canvas id="tracer-totals"></canvas>
+                <div id="total-tracers-contain">
+                  <canvas id="tracer-totals"></canvas>
+                </div>
                 <div id="estimated-tracers" class="card visually-hidden">
                   <h5 class="card-title">Estimated Contact Tracers</h5>
                   <div id="estimated-tracers-value" class="card-body"></div>
