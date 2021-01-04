@@ -1,7 +1,20 @@
 .map {
   height: 80vh;
+  margin-bottom: 50px;
 }
 
 .card-body {
   min-height: 400px;
 }
+
+h1 
+{text-align: center;
+}
+
+body{
+  margin:auto}
+
+  section{
+    margin-top: auto;
+  }
+
