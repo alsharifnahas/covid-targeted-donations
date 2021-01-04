@@ -1,29 +1,29 @@
 .map {
   height: 80vh;
-  margin-bottom: 50px;
 }
 
 .card-body {
   min-height: 400px;
-  box-shadow: black);
+  box-shadow: black;
 }
 
-h1 
-{text-align: center;
+h1 {
+  text-align: center;
 }
-h5{
-  background-color:#befffe;
+h5 {
+  background-color: #befffe;
 }
-body{
-  background:url(https://media.idownloadblog.com/wp-content/uploads/2019/04/Aqua-for-iPhoneXSMAX-iPhoneXR-iphone-wallpaper-gradient-AR72014.png);
-  background-repeat:no-repeat;
+body {
+  background: url(https://media.idownloadblog.com/wp-content/uploads/2019/04/Aqua-for-iPhoneXSMAX-iPhoneXR-iphone-wallpaper-gradient-AR72014.png);
+  background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size:cover;
-  margin:auto}
+  background-size: cover;
+  margin: auto;
+}
 
-  section{
-    margin-top: auto;
-  }
-.row{
-  margin:auto;
+section {
+  margin-top: auto;
+}
+.row {
+  margin: auto;
 }

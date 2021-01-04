@@ -9,64 +9,80 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/style/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   </head>
-<!-- background image and  -->
+  <!-- background image and  -->
+
   <body style="background-color: white;">
     <div class="container">
       <div class="page-header">
-        <h1>Covid Targeted Donations</h1>      
-   
-    </div>
-    <!-- navigation bar where we can redirect people -->
-    <nav class="navbar navbar-light" style="background-color: #b3e6b3;">
-      <div class="container">
-        <span class="col-12 navbar-brand mb-0 h1 text-center">Use the map to search for your State, city, or address.</span>
-     
+        <h1>Covid Targeted Donations</h1>
+
       </div>
-    </nav>
-    <!-- The start of the container -->
-    <div class="container" style="padding-left: 0px;padding-right: 0px">
-      <!-- google map container-->
-      <div class="map"></div>
-      <!-- The start of the 3 main and sub sections -->
-      <section class="row">
-        <div class="col-md-8" style=>
-          <div class="card"style="shadow p-3 mb-5 bg-white rounded">
-            <h5 class="card-title">General COVID Statistics for Fulton County</h5>
-            <div class="card-body row">
-              <!-- style="height: 232px;" -->
-              <ul id="general-risk" class="list-group col-2">
-                <li id="density-risk" class="list-group-item">
-                  <b>Case Density Rating: </b>
-                  <span id="density-span"></span>
-                </li>
-                <li id="infection-risk" class="list-group-item">
-                  <b>Infection Rate Rating: </b>
-                  <span id="infection-span"></span>
-                </li>
-                <li id="test-ratio-risk" class="list-group-item">
-                  <b>Positive Test Ratio Rating: </b>
-                  <span id="test-ratio-span"></span>
-                </li>
-              </ul>
-              <div id="total-cases-contain" class="col-5">
-                <canvas id="total-cases"></canvas>
-              </div>
-              <div id="total-deaths-contain" class="col-5">
-                <canvas id="total-deaths"></canvas>
+      <!-- navigation bar where we can redirect people -->
+      <nav class="navbar navbar-light" style="background-color: #b3e6b3;">
+        <div class="container">
+          <span class="col-12 navbar-brand mb-0 h1 text-center">Use the map to search for your State, city, or
+            address.</span>
+
+        </div>
+      </nav>
+      <!-- The start of the container -->
+      <div class="container" style="padding-left: 0px;padding-right: 0px">
+        <!-- google map container-->
+        <div class="map"></div>
+        <!-- search section -->
+        <section class="input-group" style="display: flex; justify-content: center;">
+          <input class="form-control address" style="max-width: 50%;" type=" text" placeholder="Enter Address">
+          <div class="group-append">
+            <button class="btn btn-outline-secondary text-white fa fa-search" id="submit"></button>
+          </div>
+        </section>
+        <!-- The start of the 3 main and sub sections -->
+        <section class="row">
+          <div class="col-md-8" style=>
+            <div class="card" style="shadow p-3 mb-5 bg-white rounded">
+              <h5 class="card-title">General COVID Statistics for Fulton County</h5>
+              <div class="card-body row">
+                <!-- style="height: 232px;" -->
+                <ul id="general-risk" class="list-group col-2">
+                  <li id="density-risk" class="list-group-item">
+                    <b>Case Density Rating: </b>
+                    <span id="density-span"></span>
+                  </li>
+                  <li id="infection-risk" class="list-group-item">
+                    <b>Infection Rate Rating: </b>
+                    <span id="infection-span"></span>
+                  </li>
+                  <li id="test-ratio-risk" class="list-group-item">
+                    <b>Positive Test Ratio Rating: </b>
+                    <span id="test-ratio-span"></span>
+                  </li>
+                </ul>
+                <div id="total-cases-contain" class="col-5">
+                  <canvas id="total-cases"></canvas>
+                </div>
+                <div id="total-deaths-contain" class="col-5">
+                  <canvas id="total-deaths"></canvas>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4" style="margin: auto;">
-          <div class="card">
-            <h5 class="card-title">Nearby Charities (General)</h5>
-            <ul id="charity-general" class="card-body">
-            </ul>
+          <div class="col-md-4" style="margin: auto;">
+            <div class="card">
+              <h5 class="card-title">Nearby Charities (General)</h5>
+              <ul id="charity-general" class="card-body">
+              </ul>
+            </div>
           </div>
-        </div>
       </div>
       <div class="row">
         <div class="col-md-8">
