@@ -1,5 +1,10 @@
 # Project-1
 
+## Description
+
+This repository was created to display all updated information within the United States regarding the COVID-19 pandemic. In this application, you can use the map to search for information on Covid for a specific region. Information includes confirmed cases, available hospital beds, and where to find charities to donate to
+for Covid relief.
+
 ## Google Doc One Pager
 
 [https://docs.google.com/document/d/1uFGRiI8EM4W4MyCwBA1ipmct5BwpRYkJCV2z6iZeOUs/edit](https://docs.google.com/document/d/1uFGRiI8EM4W4MyCwBA1ipmct5BwpRYkJCV2z6iZeOUs/edit)
