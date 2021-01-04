@@ -5,16 +5,17 @@
 
 .card-body {
   min-height: 400px;
+  box-shadow: black);
 }
 
 h1 
 {text-align: center;
 }
 h5{
-  background-color:aquamarine;
+  background-color:#befffe;
 }
 body{
-  background:url(/assets/images/background\ for\ covid\ website.png);
+  background:url(/assets/images/GradientBG.png);
   background-repeat:no-repeat;
   background-attachment: fixed;
   background-size:cover;
@@ -23,4 +24,6 @@ body{
   section{
     margin-top: auto;
   }
-
+.row{
+  margin:auto;
+}
