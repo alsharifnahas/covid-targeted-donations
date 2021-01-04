@@ -4,18 +4,26 @@
 
 .card-body {
   min-height: 400px;
+  box-shadow: black;
 }
-#floating-panel {
-  position: absolute;
-  top: 70px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 2px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: "Roboto", "sans-serif";
-  line-height: 20px;
 
-  font-size: 10px;
+h1 {
+  text-align: center;
+}
+h5 {
+  background-color: #befffe;
+}
+body {
+  background: url(https://media.idownloadblog.com/wp-content/uploads/2019/04/Aqua-for-iPhoneXSMAX-iPhoneXR-iphone-wallpaper-gradient-AR72014.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  margin: auto;
+}
+
+section {
+  margin-top: auto;
+}
+.row {
+  margin: auto;
 }
