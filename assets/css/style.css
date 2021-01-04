@@ -10,9 +10,14 @@
 h1 
 {text-align: center;
 }
-
+h5{
+  background-color:aquamarine;
+}
 body{
   background:url(/assets/images/background\ for\ covid\ website.png);
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+  background-size:cover;
   margin:auto}
 
   section{
