@@ -1,11 +1,14 @@
 // ===DOM VARIABLES===
+// ---General Risk Section Elements---
 var generalRiskEl = $("#general-risk");
 var densitySpanEl = $("#density-span");
 var infectionSpanEl = $("#infection-span");
 var testRatioSpanEl = $("#test-ratio-span");
 var totalCasesEl = document.getElementById('total-cases').getContext('2d');
 var totalDeathsEl = document.getElementById('total-deaths').getContext('2d');
+// ---General Charity Element---
 var generalCharityEl = $('#charity-general');
+// ---Medical Risk Section Elements---
 var tracerSpanEl = $("#tracer-span");
 var icuCapacitySpanEl = $("#icu-capacity-span");
 var icuHeadroomSpanEl = $("#icu-headroom-span");
@@ -15,13 +18,16 @@ var estimatedBedsEl = $('#estimated-beds');
 var estimatedBedsValueEl = $('#estimated-beds-value');
 var estimatedTracersEl = $('#estimated-tracers');
 var estimatedTracersValueEl = $('#estimated-tracers-value');
+// ---Medical Charity Element---
 var hospitalCharityEl = $('#charity-hospital');
+// ---Govt Response Risk Elements---
 var barRestrictionsSpanEl = $('#bar-restrictions');
 var gatheringRestrictionsSpanEl = $('#gathering-restrictions');
 var nonessentialRestrictionsSpanEl = $('#nonessential-restrictions');
 var openStatusSpanEl = $('#open-status');
 var stayAtHomeSpanEl = $('#stay-at-home');
 var restaurantRestrictionsSpanEl = $('#restuarant-restrictions');
+/// ---Employment Charity Element
 var employmentCharityEl = $('#charity-employment')
 
 // calling the google maps api
@@ -33,8 +39,10 @@ script.defer = true;
 document.head.appendChild(script);
 
 // ===JS VARIABLES===
+// ---Variables for use with Charity API---
 var charityURL = "https://cors-anywhere.herokuapp.com/http://data.orghunter.com/v1/charitysearch?";
 var charityAPIkey = "b784bd4d2422022a05ab4a00a568c5e1";
+// ---Location Data, to be obtained from Google Maps and API call
 var locationData = {
     coords: {
         latitude: 0,
@@ -50,6 +58,7 @@ var locationData = {
         name: '',
     }
 }
+// ---Location Specific Covid data, to be obtained from COVID API
 var locationCovidData = {};
 
 // Google Maps: creating a marker variable
@@ -58,8 +67,12 @@ let marker;
 // ===FUNCTION DEFINITIONS===
 
 function buildTotalCasesChart() {
-    //return today's date location in object
+    //Function to build chart containing historical data for total COVID cases for an area
+    //Input: n/a
+    //Output: n/a
+
     var locationActuals = locationCovidData.actualsTimeseries;
+
     var totalCasesChart = new Chart (totalCasesEl, {
         type: 'bar',
         data: {
@@ -95,8 +108,12 @@ function buildTotalCasesChart() {
 }
 
 function buildTotalDeathsChart() {
+    //Function to build chart containing historical data for total COVID deaths for an area
+    //Input: n/a
+    //Output: n/a
 
     var locationActuals = locationCovidData.actualsTimeseries;
+
     var totalDeathsChart = new Chart (totalDeathsEl, {
         type: 'bar',
         data: {
@@ -132,10 +149,15 @@ function buildTotalDeathsChart() {
 }
 
 function buildIcuBedsChart() {
+    //Function to build chart containing historical data for ICU beds for an area
+    //Input: n/a
+    //Output: n/a
     
     var locationActuals = locationCovidData.actualsTimeseries;
-    var bedsByDay = thirtyDayValues('bed', locationActuals);
 
+    //First check if there is data available for this chart
+    var bedsByDay = thirtyDayValues('bed', locationActuals);
+    //...if so, build out the chart
     if(bedsByDay.length > 0) {
         var locationActuals = locationCovidData.actualsTimeseries;
         var icuBedsChart = new Chart (icuBedsUsageEl, {
@@ -170,7 +192,9 @@ function buildIcuBedsChart() {
                 maintainAspectRatio: false
             }
         })
-    } else {
+    } 
+    //...otherwise, show estimated total
+    else {
         estimatedBedsEl.removeClass('visually-hidden');
         estimatedBedsValueEl.text(locationCovidData.metrics.icuHeadroomDetails.currentIcuCovid);
         $('#icu-bed-usage').addClass('visually-hidden');
@@ -178,10 +202,15 @@ function buildIcuBedsChart() {
 }
 
 function buildContactTracerChart() {
+    //Function to build chart containing historical data for contact tracers for an area
+    //Input: n/a
+    //Output: n/a
     
     var locationActuals = locationCovidData.actualsTimeseries;
-    var tracersByDay = thirtyDayValues('tracers', locationActuals);
 
+    //First check to see if there is data available for this chart
+    var tracersByDay = thirtyDayValues('tracers', locationActuals);
+    //...if so, build the chart
     if(tracersByDay > 0) {
         
         var tracerChart = new Chart (tracerTotalsEl, {
@@ -216,20 +245,26 @@ function buildContactTracerChart() {
                 maintainAspectRatio: false
             }
         })
-    } else {
+    } 
+    //...otherwise
+    else {
+        //show alternative (estimate if available)
         estimatedTracersEl.removeClass('visually-hidden');
         if (locationCovidData.metrics.contactTracerCapacityRatio === null) {
             estimatedTracersValueEl.text(`No data on the number of COVID Contact Tracers is available for ${locationData.county.name}`);
         } else {
             estimatedTracersValueEl.text(locationCovidData.metrics.contactTracerCapacityRatio);
         }
+        //hide the chart
         $('#tracer-totals').addClass('visually-hidden');
     }
 }
 
 function setGeneralRisks() {
+    //Function to set the risks for the general section
+    //Input: n/a
+    //Output: n/a
 
-    
     densitySpanEl.text(locationCovidData.riskLevels.caseDensity);
     infectionSpanEl.text(locationCovidData.riskLevels.infectionRate);
     testRatioSpanEl.text(locationCovidData.riskLevels.testPositivityRatio);
@@ -237,6 +272,9 @@ function setGeneralRisks() {
 }
 
 function setHospitalRisks() {
+    //Function to set the risks for the medical section
+    //Input: n/a
+    //Output: n/a
 
     tracerSpanEl.text(locationCovidData.riskLevels.contactTracerCapacityRatio);
     icuCapacitySpanEl.text(locationCovidData.riskLevels.icuCapacityRatio);
@@ -245,6 +283,10 @@ function setHospitalRisks() {
 }
 
 function thirtyDayValues(key, data) {
+    //Function to build out the individual chart values for each chart.  Takes an identifier and historical covid data for a location and returns an array
+    //Input: key (string, identifies what array to build), data (object, historical data pulled from COVID API return value)
+    //Output: returnArray (array, sequential values identified and pulled from historical COVID data)
+
     var returnArray = [];
 
     for(i = 30; i >= 0; i--) {
@@ -265,10 +307,17 @@ function thirtyDayValues(key, data) {
 }
 
 function setLocation(coordinates) {
+    //Function to set the location values needed for API queries from information provided by map click event
+    //Input: coordinates (object, click event on the Google Map)
+    //Output: returns a promise once complete
+
+    //Set the latitude and longitude directly from Google Maps click event
     locationData.coords.latitude = coordinates.latLng.lat();
     locationData.coords.longitude = coordinates.latLng.lng();
     
+    //Return a promise once location setting is complete
     return new Promise(resolve => {
+        //Using the latitude and longitude from Google Map, query fcc api for state and county data
         $.ajax({
             url: `https://geo.fcc.gov/api/census/block/find?latitude=${locationData.coords.latitude}&longitude=${locationData.coords.longitude}&showall=true&format=json`,
             method: "GET",
@@ -287,6 +336,10 @@ function setLocation(coordinates) {
 }
 
 async function populatePage(coordinates) {
+    //Async Function to run queries off a map click
+    //Input: coordinates (object, click event on the Google Map)
+    //Outpu: n/a
+
     await setLocation(coordinates);
     queryCovidData();
     queryGovtResponseData();
@@ -296,6 +349,10 @@ async function populatePage(coordinates) {
 }
 
 function queryCovidData() {
+    //Function to query the COVID API, set COVID location data, and populate page elements
+    //Input: n/a
+    //Output: n/a
+
     console.log(locationData.county.fips);
     $.ajax({
         url: `https://api.covidactnow.org/v2/county/${locationData.county.fips}.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757`,
@@ -316,9 +373,14 @@ function queryCovidData() {
 }
 
 function buildCharityList(data, htmlElement) {
+    //Function to add returned charities to charity list elements
+    //Input: data (object, returned values from Charity API), htmlElement (saved jQuery element to write to)
+    //Output: n/a
     
+    //clear previous entries
     htmlElement.empty();
 
+    //iterate over data, include all items OR 7 whichever comes first
     for(var i = 0; i < data.data.length && i < 7; i++) {
         var charityItem = $("<li>");
         charityItem.attr("class", "list-group-item");
@@ -328,7 +390,10 @@ function buildCharityList(data, htmlElement) {
 }
 
 function queryCharityData(type, htmlElement) {
+    //Function to query the Charity API
+    //Input: type (string, one letter code indicating type of charity to searh for in API), htmlElement (saved jQuery element to write to)
 
+    //set query search parameters
     var queryParams = { 
         user_key: charityAPIkey,
         latitude: locationData.coords.latitude,
@@ -337,6 +402,7 @@ function queryCharityData(type, htmlElement) {
         category: type,
         eligible: 1 };
 
+    //set query url
     var queryURL = charityURL + $.param(queryParams);
 
     $.ajax({
@@ -372,6 +438,10 @@ function queryCharityData(type, htmlElement) {
 }
 
 function queryGovtResponseData() {
+    //Function to query Govt Responses at state level
+    //Input: n/a
+    //Output: n/a
+
     // $.ajax({
     //     url: "https://cors-anywhere.herokuapp.com/https://localcoviddata.com/covid19/v1/high-level-policy?country=USA",
     //     method: "GET",
@@ -401,12 +471,6 @@ function queryGovtResponseData() {
 $(document).ready(function() {
 
 // ===FUNCTION CALLS===
-
-    
-    //COVID Statistics API
-    
-
-    //Non-Pharmaceutical Intervition API
 
 // ===EVENT LISTENERS===
 
