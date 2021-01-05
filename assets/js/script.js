@@ -427,10 +427,30 @@ function buildCharityList(data, htmlElement) {
     htmlElement.empty();
 
     for (var i = 0; i < data.data.length && i < 7; i++) {
+        //creating the name for the container
+        console.log(data.data)
+        var splitedName = data.data[i].charityName.split(" ").join("");
         var charityItem = $("<li>");
+        //creating the links for the donation website and the main website
+        var buttonContainer = $(`<div class='collapse' id=${splitedName}>`);
+        var donateLink = $(`<a href=${data.data[i].donationUrl}  target="_blank">Donate</a>`);
+        var websiteLink = $(`<a href=${data.data[i].url} target='_blank'>Website</a>`);
+
+
+        buttonContainer.append(donateLink);
+        buttonContainer.append(websiteLink);
+
+
         charityItem.attr("class", "list-group-item");
+        charityItem.attr("data-toggle", "collapse");
+        charityItem.attr("href", `#${splitedName}`);
+
+
+
+
+
         charityItem.text(data.data[i].charityName);
-        htmlElement.append(charityItem);
+        htmlElement.append(charityItem, buttonContainer);
     }
 }
 
@@ -530,7 +550,10 @@ window.initMap = function () {
     });
 
 
+
 }
+
+// function to place the marker whenever the map is clicked
 function placeMarkerAndPanTo(latLng, map) {
     if (marker != undefined) {
         marker.setMap(null);
@@ -561,6 +584,8 @@ function placeMarkerAndPanTo(latLng, map) {
     });
 
 }
+
+// function for the search bar on the map
 function geocodeAddress(geocoder, resultsMap, latLng) {
     const address = document.querySelector(".address").value;
     geocoder.geocode({ address: address }, (results, status) => {
