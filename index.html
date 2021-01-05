@@ -40,7 +40,7 @@
         <!-- google map container-->
         <div class="map"></div>
         <!-- search section -->
-        <section class="input-group" style="display: flex; justify-content: center;">
+        <section class="input-group" style="display: flex;justify-content: center;padding-top: 5px;padding-bottom: 5px;">
           <input class="form-control address" style="max-width: 50%;" type=" text" placeholder="Enter Address">
           <div class="group-append">
             <button class="btn btn-outline-secondary text-white fa fa-search" id="submit"></button>
@@ -49,7 +49,7 @@
         <!-- The start of the 3 main and sub sections -->
         <section class="row">
           <div class="col-md-8" style=>
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card shadow">
               <h5 id="general-title" class="card-title">General COVID Statistics</h5>
               <div class="card-body row">
                 <!-- style="height: 232px;" -->
@@ -84,7 +84,8 @@
             </div>
           </div>
       </div>
-      <div class="row">
+      <!-- second row -->
+      <div class="row" style="padding-bottom:10px;">
         <div class="col-md-8">
           <div class="card">
             <h5 id="hospital-title" class="card-title">Hospital Response to COVID</h5>
@@ -127,11 +128,12 @@
         <div class="col-md-4">
           <div class="card">
             <h5 class="card-title">Nearby Charities (Hospital)</h5>
-            <ul id="charity-hospital" class="card-body">
+            <ul id="charity-hospital" class="card-body" style="margin-bottom:0px;">
             </ul>
           </div>
         </div>
       </div>
+      <!-- Third row -->
       <div class="row">
         <div class="col-sm-8">
           <div class="card">
