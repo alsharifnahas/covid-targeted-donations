@@ -4,9 +4,11 @@
 
 .card-body {
   min-height: 500px;
-  box-shadow: black;
 }
 
+.card {
+  min-height: 554px;
+}
 h1 {
   text-align: center;
 }
@@ -27,6 +29,4 @@ section {
 .row {
   margin: 10px;
 }
-.card {
-  min-height:500px;
-}
+
