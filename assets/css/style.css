@@ -9,6 +9,9 @@
 .card {
   min-height: 554px;
 }
+.container{
+  margin:auto;
+}
 h1 {
   text-align: center;
 }
@@ -30,3 +33,6 @@ section {
   margin: 10px;
 }
 
+.navbar-brand{
+  white-space:normal;
+}
