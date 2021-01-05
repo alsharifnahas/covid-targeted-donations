@@ -434,7 +434,7 @@ function buildCharityList(data, htmlElement) {
         //creating the links for the donation website and the main website
         var buttonContainer = $(`<div class='collapse' id=${splitedName}>`);
         var donateLink = $(`<a href=${data.data[i].donationUrl}  target="_blank">Donate</a>`);
-        var websiteLink = $(`<a href=${data.data[i].url} target='_blank'>Website</a>`);
+        var websiteLink = $(`<a href=${data.data[i].url} target='_blank'>View Website</a>`);
 
 
         buttonContainer.append(donateLink);
