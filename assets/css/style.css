@@ -9,8 +9,8 @@
 .card {
   min-height: 554px;
 }
-.container{
-  margin:auto;
+.container {
+  margin: auto;
 }
 h1 {
   text-align: center;
@@ -25,14 +25,26 @@ body {
   background-size: cover;
   margin: auto;
 }
+a {
+  margin: 5px;
+  color: black;
+}
 
 section {
   margin-top: auto;
+}
+li:hover {
+  cursor: pointer;
 }
 .row {
   margin: 10px;
 }
 
-.navbar-brand{
-  white-space:normal;
+.navbar-brand {
+  white-space: normal;
+}
+.collapse,
+.collapsing {
+  display: flex;
+  justify-content: center;
 }
