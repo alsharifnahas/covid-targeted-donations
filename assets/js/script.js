@@ -153,7 +153,7 @@ function buildTotalDeathsChart() {
             },
             title: {
                 display: true,
-                text: "Total COVID Deats (Past 30 Days)",
+                text: "Total COVID Deaths (Past 30 Days)",
                 fontSize: 25
             },
             layout: {
