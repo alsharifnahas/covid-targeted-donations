@@ -18,154 +18,149 @@
   </head>
   <!-- background image and  -->
 
-  <body style="background-color: white;">
+  <body>
 
 
     <div class="container">
       <div class="page-header">
         <h1>Covid Targeted Donations</h1>
-
       </div>
       <!-- navigation bar where we can redirect people -->
-      <nav class="navbar navbar-light" style="background-color: #b3e6b3;">
+      <nav class="navbar navbar-light" style="background-color: rgb(209, 245, 253)">
         <div class="container">
-          <span class="col-12 navbar-brand mb-0 h1 text-center">Use the map to search for your State, city, or
+          <span class="col-12  mb-0 text-center">Use the map to search for
+            your State, city, or
             address.</span>
 
         </div>
       </nav>
       <!-- The start of the container -->
-      <div class="container" style="padding-left: 0px;padding-right: 0px">
-        <!-- google map container-->
-        <div class="map"></div>
-        <!-- search section -->
-        <section class="input-group"
-          style="display: flex;justify-content: center;padding-top: 5px;padding-bottom: 5px;">
-          <input class="form-control address" style="max-width: 50%;" type=" text" placeholder="Enter Address">
-          <div class="group-append">
-            <button class="btn btn-outline-secondary text-white fa fa-search" id="submit"></button>
-          </div>
-        </section>
-        <!-- The start of the 3 main and sub sections and first row -->
-        <section class="row">
-          <div class="col-md-8" style=>
-            <div class="card shadow">
-              <h5 id="general-title" class="card-title">General COVID Statistics</h5>
-              <div class="card-body row">
-                <!-- style="height: 232px;" -->
-                <ul id="general-risk" class="list-group col-2">
-                  <li id="density-risk" class="list-group-item">
-                    <b>Case Density Rating: </b>
-                    <span id="density-span"></span>
-                  </li>
-                  <li id="infection-risk" class="list-group-item">
-                    <b>Infection Rate Rating: </b>
-                    <span id="infection-span"></span>
-                  </li>
-                  <li id="test-ratio-risk" class="list-group-item">
-                    <b>Positive Test Ratio Rating: </b>
-                    <span id="test-ratio-span"></span>
-                  </li>
-                </ul>
-                <div id="total-cases-contain" class="col-5">
-                  <canvas id="total-cases"></canvas>
-                </div>
-                <div id="total-deaths-contain" class="col-5">
-                  <canvas id="total-deaths"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-4" style="margin: auto;">
-            <div class="card">
-              <h5 class="card-title">Nearby Charities (General)</h5>
-              <ul id="charity-general" class="card-body">
-
-              </ul>
-            </div>
-          </div>
-
+      <!-- google map container-->
+      <div class=" map">
       </div>
+      <!-- search section -->
+      <section class="input-group" style="display: flex;justify-content: center;padding-top: 5px;padding-bottom: 5px;">
+        <input class="form-control address" style="max-width: 50%;" type=" text" placeholder="Enter Address">
+        <div class="group-append">
+          <button class="btn btn-outline-secondary text-white fa fa-search"
+            style="background-color: rgb(210, 210, 210);" id="submit"></button>
+        </div>
+      </section>
+
+
+
+      <!-- The start of the 3 main and sub sections and first row -->
+      <section class="row justify-content-center">
+        <h1 class="w-100" style="text-align: center;">General COVID Statistics In The Area</h1>
+
+        <!-- style="height: 232px;" -->
+        <div class="row w-100" style="text-align: center; color: rgb(13, 88, 145);">
+          <div class="col-4">
+            <span>Case Density Rating: </span>
+            <span id="density-span"></span>
+          </div>
+          <div class="col-4">
+            <span>Infection Rate Rating: </span>
+            <span id="infection-span"></span>
+          </div>
+          <div class="col-4">
+            <span>Positive Test Ratio Rating: </span>
+            <span id="test-ratio-span"></span>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col" id="total-cases-contain" style="height: 400px;">
+            <canvas style="color: black;" id="total-cases"></canvas>
+          </div>
+          <div class="col" id="total-deaths-contain">
+            <canvas id="total-deaths"></canvas>
+          </div>
+        </div>
+        <div class="col-6">
+          <h5 style="text-align: center; font-weight: 400;">Nearby Charities (General)</h5>
+          <div class="card" style="min-height: 40vh; overflow-y: scroll; background-color: rgb(209, 245, 253);">
+
+          </div>
+
+        </div>
+
+      </section>
+      <hr>
       <!-- second row -->
-      <div class="row">
-        <div class="col-md-8">
-          <div class="card">
-            <h5 id="hospital-title" class="card-title">Hospital Response to COVID</h5>
-            <div class="card-body row">
-              <ul id="hospital-risk" class="list-group col-2">
-                <li id="tracer-risk" class="list-group-item">
-                  <b>Contact Tracer Capacity Rating: </b>
-                  <span id="tracer-span"></span>
-                </li>
-                <li id="icu-capacity-risk" class="list-group-item">
-                  <b>ICU Capacity Rating: </b>
-                  <span id="icu-capacity-span"></span>
-                </li>
-                <li id="icu-headroom-risk" class="list-group-item">
-                  <b>ICU Headroom Rating: </b>
-                  <span id="icu-headroom-span"></span>
-                </li>
-              </ul>
-              <div class="col-5">
-                <div id="icu-bed-usage-contain">
-                  <canvas id="icu-bed-usage"></canvas>
-                </div>
-                <div id="estimated-beds" class="card visually-hidden">
-                  <h5 class="card-title">Estimated COVID Hospital Beds</h5>
-                  <div id="estimated-beds-value" class="card-body"></div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div id="total-tracers-contain">
-                  <canvas id="tracer-totals"></canvas>
-                </div>
-                <div id="estimated-tracers" class="card visually-hidden">
-                  <h5 class="card-title">Estimated Contact Tracers</h5>
-                  <div id="estimated-tracers-value" class="card-body"></div>
-                </div>
-              </div>
-            </div>
+      <div class="row" style="justify-content: center;">
+        <h1 class="w-100" style="text-align: center;">Hospital Response to COVID</h1>
+        <div class="row" style="text-align: center;  color: rgb(12, 111, 15);">
+          <div class="col-4 mt-4">
+            <span>Contact Tracer Capacity Rating: </span>
+            <span id="tracer-span"></span>
+          </div>
+          <div class="col-4 mt-4">
+            <span>ICU Capacity Rating: </span>
+            <span id="icu-capacity-span"></span>
+          </div>
+          <div class="col-4 mt-4">
+            <span>ICU Headroom Rating: </span>
+            <span id="icu-headroom-span"></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Estimated COVID Hospital Beds: </span>
+            <span id="estimated-beds-value"></span>
+          </div>
+
+          <div class="col-6 mt-4">
+            <span>Estimated Contact Tracers: </span>
+            <span id="estimated-tracers-value"></span>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card">
-            <h5 class="card-title">Nearby Charities (Hospital)</h5>
-            <ul id="charity-hospital" class="card-body">
-            </ul>
+
+        <div class="col-6 mt-5">
+          <h5 style="text-align: center; font-weight: 400;">Nearby Charities (Hospital)</h5>
+          <div class="card" style="min-height: 40vh; overflow-y: scroll; background-color: rgb(209, 253, 227);">
+
           </div>
+
         </div>
       </div>
+
+      <hr>
       <!-- Third row -->
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="card">
-            <h5 id="govt-title" class="card-title">Government Response to COVID</h5>
-            <div class="card-body" style="height: 232px;">
-              <ul class="list-group">
-                <li class="list-group-item">Bar Restrictions: <span id="bar-restrictions"></span></li>
-                <li class="list-group-item">Gathering Restrictions: <span id="gathering-restrictions"></span></li>
-                <li class="list-group-item">Non-Essential Businesses: <span id="nonessential-restrictions"></span></li>
-                <li class="list-group-item">Reopen Status: <span id="open-status"></span></li>
-                <li class="list-group-item">Stay at Home Requirement: <span id="stay-at-home"></span></li>
-                <li class="list-group-item">Restaurant Restrictions: <span id="restuarant-restrictions"></span></li>
-              </ul>
-            </div>
+      <div class="row justify-content-center">
+        <h1 class="w-100" style="text-align: center;">Government Response to COVID</h1>
+        <div class="row" style="color: rgb(155, 167, 22); text-align: center;">
+          <div class="col-6 mt-4">
+            <span>Bar Restrictions: <span id="bar-restrictions"></span></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Gathering Restrictions: <span id="gathering-restrictions"></span></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Non-Essential Businesses: <span id="nonessential-restrictions"></span></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Reopen Status: <span id="open-status"></span></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Stay at Home Requirement: <span id="stay-at-home"></span></span>
+          </div>
+          <div class="col-6 mt-4">
+            <span>Restaurant Restrictions: <span id="restuarant-restrictions"></span></span>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="card">
-            <h5 class="card-title">Nearby Charities (Gov't/Small Business)</h5>
-            <ul id="charity-employment" class="card-body">
-            </ul>
+
+        <div class="col-6 mt-5">
+          <h5 style="text-align: center; font-weight: 400;">Nearby Charities (Gov't/Small Business)</h5>
+          <div class="card" style="min-height: 40vh; overflow-y: scroll; background-color: rgb(249, 253, 209);">
+
           </div>
+
         </div>
       </div>
 
 
 
     </div>
-    </div>
+
 
 
 
