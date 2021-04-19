@@ -35,7 +35,7 @@ var employmentCharityEl = $('#charity-employment')
 
 // calling the google maps api
 let script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCLbcYFkEQGgfWAnPInbdq7ehzMdrjb534&callback=initMap&libraries=&v=weekly';
+script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCOv8erIR7heDuB5VmqyyrY5oZpTeju8SU&callback=initMap&libraries=&v=weekly';
 script.defer = true;
 
 
@@ -402,8 +402,8 @@ function queryCovidData() {
 
     console.log(locationData.county.fips);
     $.ajax({
-        url: `https://api.covidactnow.org/v2/county/${locationData.county.fips}.timeseries.json?apiKey=51923792ac2a444ab49545572dcb9757`,
-        // url: "https://api.covidactnow.org/v2/counties.csv?apiKey=51923792ac2a444ab49545572dcb9757",
+        url: `https://api.covidactnow.org/v2/county/${locationData.county.fips}.timeseries.json?apiKey=624d6534096c43a19d2a15770a3469b2`,
+
         method: "GET",
         success: function (data) {
             locationCovidData = data;

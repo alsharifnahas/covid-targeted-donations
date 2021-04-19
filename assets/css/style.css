@@ -2,12 +2,7 @@
   height: 80vh;
 }
 
-.card-body {
-  min-height: 500px;
-}
-
 .card {
-  min-height: 554px;
 }
 .container {
   margin: auto;
@@ -36,4 +31,19 @@ a {
 .collapsing {
   display: flex;
   justify-content: center;
+}
+
+/* Track */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
 }
